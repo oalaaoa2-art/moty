@@ -1,0 +1,985 @@
+<!DOCTYPE html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>Furry Companion: Мотя</title><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600&family=Unbounded:wght@500;700&display=swap"><style>
+*{box-sizing:border-box}
+:root{--bg:#eef1f6;--card:#fff;--tx:#1c232c;--mt:#566372;--bd:#d9dee5;--ac:#2f6df6;--acx:#fff;--ol:#1c232c;--paw-ol:#1c232c;--panel:#fbfcff;--wsh:#c3ccda;--stage:#dde4ee;--grid:rgba(28,35,44,.07);--ok:#2f8a3d;--warn:#8f6c0a;--no:#c8313e;color-scheme:light;--f:Onest,system-ui,-apple-system,"Segoe UI",sans-serif;--d:Unbounded,Onest,system-ui,sans-serif;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#050709;--card:#0e1319;--tx:#e6edf3;--mt:#8b97a5;--bd:#232b35;--ac:#6ea0ff;--acx:#0b1220;--ol:#c4d2e8;--paw-ol:#8aa3c8;--panel:#1a2029;--wsh:#05080c;--stage:#10141a;--grid:rgba(128,140,155,.16);--ok:#4aa657;--warn:#e8c35a;--no:#e0505c;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#050709;--card:#0e1319;--tx:#e6edf3;--mt:#8b97a5;--bd:#232b35;--ac:#6ea0ff;--acx:#0b1220;--ol:#c4d2e8;--paw-ol:#8aa3c8;--panel:#1a2029;--wsh:#05080c;--stage:#10141a;--grid:rgba(128,140,155,.16);--ok:#4aa657;--warn:#e8c35a;--no:#e0505c;color-scheme:dark}
+html{scroll-padding-top:calc(72px + env(safe-area-inset-top,0px));scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--tx);font:17px/1.65 var(--f)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--bg);z-index:10}
+.w{max-width:1040px;margin:0 auto;padding:0 20px}
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:11;background:var(--bg);border-bottom:1px solid var(--bd)}
+.bar-in{display:flex;align-items:center;justify-content:space-between;height:56px;gap:16px}
+.logo{font:600 15px var(--d);color:var(--tx);text-decoration:none}
+nav{display:flex;gap:20px;font-size:15px;overflow-x:auto}
+nav a{color:var(--mt);text-decoration:none;white-space:nowrap}nav a:hover{color:var(--tx)}
+a:focus-visible,button:focus-visible{outline:2px solid var(--ac);outline-offset:3px}
+section{padding:84px 0 0}
+h1{font:700 clamp(64px,15vw,168px)/.95 var(--d);margin:18px 0 20px;letter-spacing:-.03em}
+h2{font:600 clamp(26px,4.2vw,40px)/1.15 var(--d);margin:0 0 18px;letter-spacing:-.02em}
+h3{font:600 19px/1.3 var(--f);margin:36px 0 10px}
+p{margin:0 0 14px;max-width:64ch}.lead{font-size:20px;max-width:56ch}
+.mt{color:var(--mt)}code{font:14px ui-monospace,Menlo,Consolas,monospace;background:var(--card);border:1px solid var(--bd);border-radius:5px;padding:1px 5px}
+.hero{padding-top:56px}
+.badge{display:inline-flex;align-items:center;gap:10px;border:1px solid var(--bd);border-radius:999px;padding:6px 14px;font-size:14px;margin:0;background:var(--card)}
+.badge i{width:8px;height:8px;background:var(--warn);animation:bl 1.6s steps(2) infinite}
+@keyframes bl{50%{opacity:.25}}
+.dev{background:#000;border:1px solid var(--bd);border-radius:20px;padding:12px;margin:30px 0 14px}
+.dev canvas{display:block;width:100%;height:auto;image-rendering:pixelated;border-radius:10px}
+.cap{color:#8b97a5;font-size:14px;padding:8px 4px 0;min-height:1.9em}
+.row{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 10px}
+.pill{font:inherit;font-size:14px;color:var(--tx);background:var(--card);border:1px solid var(--bd);border-radius:8px;padding:7px 12px;cursor:pointer}
+.pill.on{border-color:var(--ac);color:var(--ac);box-shadow:inset 0 0 0 1px var(--ac)}
+.pill.go{background:var(--ac);color:var(--acx);border-color:var(--ac)}
+.note{font-size:14px;color:var(--mt)}
+.duo{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--bd);border-radius:16px;background:var(--card);margin:26px 0}
+.duo>div{padding:22px 24px}.duo>div+div{border-left:1px solid var(--bd)}
+.duo h3{margin:0 0 8px}.duo ul{margin:0;padding-left:18px;color:var(--mt);font-size:15px}
+.link{grid-column:1/-1;border-top:1px solid var(--bd);font-size:15px;color:var(--mt);padding:14px 24px}
+.ev{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:20px;align-items:start}
+.ev .dev{margin:0}#evlog{font:13px/1.5 ui-monospace,Menlo,Consolas,monospace;color:var(--mt);min-height:2.6em;margin:8px 0 0}
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:36px}
+.cols h3{margin-top:0}.cols ul{list-style:none;margin:0;padding:0}
+.cols li{position:relative;padding-left:20px;margin-bottom:10px;font-size:15.5px;line-height:1.5}
+.cols li::before{content:"";position:absolute;left:0;top:.5em;width:8px;height:8px;background:var(--c)}
+.ok{--c:var(--ok)}.wr{--c:var(--warn)}.no{--c:var(--no)}
+table{border-collapse:collapse;width:100%;font-size:15px;margin:10px 0}
+td,th{text-align:left;vertical-align:top;padding:10px 14px 10px 0;border-top:1px solid var(--bd)}th{color:var(--mt);font-weight:500;width:34%}
+pre{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:16px;overflow-x:auto;font:14px/1.6 ui-monospace,Menlo,Consolas,monospace;margin:0 0 16px}
+footer{padding:84px 0 48px;color:var(--mt);font-size:14px}
+#stage{position:relative;display:flex;justify-content:center;align-items:center;overflow:hidden;min-height:250px;padding:14px;margin:18px 0 12px;border:1px solid var(--bd);border-radius:16px;background-color:var(--stage);background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:8px 8px;--tx2:var(--tx)}
+#stage[data-cx="l"]{padding-left:calc(var(--reach) + 14px)}#stage[data-cx="r"]{padding-right:calc(var(--reach) + 14px)}
+#stage[data-cy="t"]{padding-top:calc(var(--reach) + 14px)}#stage[data-cy="b"]{padding-bottom:calc(var(--reach) + 14px)}
+#hint{color:var(--mt);font-size:14px;min-height:2.8em;margin:6px 0 0}
+@media(max-width:720px){.duo,.ev{grid-template-columns:1fr}.duo>div+div{border-left:0;border-top:1px solid var(--bd)}section{padding-top:64px}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.badge i{animation:none}}
+
+.prog{position:absolute;left:0;bottom:-1px;height:5px;width:0;background:linear-gradient(var(--no) 66%,var(--ok) 66%)}
+nav a.on{color:var(--tx);box-shadow:0 2px 0 var(--ac)}
+.hero{position:relative;padding-bottom:8px}#grid{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:0}
+.hero>*:not(#grid){position:relative;z-index:1}
+h1{display:flex}h1 span{display:inline-block;animation:on 1.1s steps(1) both}
+h1 span:nth-child(2){animation-delay:.25s}h1 span:nth-child(3){animation-delay:.5s}h1 span:nth-child(4){animation-delay:.75s}
+@keyframes on{0%{opacity:0}18%{opacity:1}28%{opacity:.15}44%{opacity:1}56%{opacity:.4}72%,100%{opacity:1}}
+.dev{box-shadow:0 0 0 1px var(--bd),0 36px 90px -36px rgba(47,109,246,.45);cursor:pointer;transition:transform .25s}
+.dev:active{transform:scale(.995)}
+.tick{overflow:hidden;border-block:1px solid var(--bd);margin-top:56px;font:13px ui-monospace,Menlo,Consolas,monospace;color:var(--mt);white-space:nowrap}
+.tick div{display:inline-block;padding:11px 0;animation:mq 46s linear infinite}.tick:hover div{animation-play-state:paused}
+.tick b{font-weight:400;margin:0 18px;color:var(--ac)}
+@keyframes mq{to{transform:translateX(-50%)}}
+.orn{height:40px;margin:84px 0 -24px;background:var(--orn) repeat-x center/auto 40px;opacity:.85;image-rendering:pixelated}
+.rv{opacity:0}.rv.in{animation:pix .7s steps(7) both}
+@keyframes pix{from{opacity:0;clip-path:inset(0 0 100% 0)}to{opacity:1;clip-path:inset(0)}}
+.wire{position:relative;height:1px;margin:14px 0 18px;border-top:1px dashed var(--bd)}
+.wire i{position:absolute;top:-5px;left:0;width:9px;height:9px;background:var(--ac);animation:go 3.6s steps(28) infinite}
+.wire i:nth-child(2){animation-delay:-1.2s;background:var(--ok)}.wire i:nth-child(3){animation-delay:-2.4s;background:var(--no)}
+@keyframes go{to{left:calc(100% - 9px)}}
+.link code{display:block;white-space:normal;word-break:break-all;min-height:3.2em;border:0;background:none;padding:0;color:var(--tx);transition:opacity .3s}
+.duo>div,tr{transition:background .2s}.duo>div:hover{background:color-mix(in srgb,var(--ac) 5%,transparent)}tr:hover td,tr:hover th{color:var(--tx)}
+.cols li{transition:transform .2s}.cols li:hover{transform:translateX(5px)}
+@media(prefers-reduced-motion:reduce){.rv{opacity:1;animation:none!important}h1 span,.tick div,.wire i{animation:none}}
+section{padding:84px 0 0}.orn+section{padding-top:48px}</style><style>
+.notif{position:relative;display:block;width:max-content;max-width:min(380px,100%);min-width:min(250px,100%);flex:0 1 auto;
+  --ox:-1;--oy:-1}                           /* направление «наружу» от угла окна: ox,oy ∈ {-1,1} */
+.notif[data-cx="r"]{--ox:1}
+.notif[data-cy="b"]{--oy:1}
+
+.window{position:relative;z-index:1;width:100%;
+  display:flex;flex-direction:column;gap:10px;
+  padding:16px 18px 18px;
+  background:var(--panel);color:var(--tx);
+  border:2px solid var(--ol);border-radius:var(--rad);
+  box-shadow:4px 4px 0 var(--wsh)}           /* жёсткая пиксельная тень вместо размытой */
+/* со стороны лапки добавляем воздух, чтобы кончики пальцев не ложились на текст */
+.notif[data-cy="t"] .window{padding-top:max(16px,calc(var(--u) * var(--ty,17.3) - var(--reach) + 6px))}
+.notif[data-cy="b"] .window{padding-bottom:max(18px,calc(var(--u) * var(--ty,17.3) - var(--reach) + 8px))}
+
+.w-cap{display:flex;align-items:center;gap:7px;
+  font:600 11px/1 ui-monospace,"SF Mono",Menlo,Consolas,monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--mt)}
+.w-cap::before{content:"";width:6px;height:6px;background:var(--ac)}   /* один «LED-пиксель» */
+.w-msg{margin:0;font-size:16px;line-height:1.35;font-weight:600;text-wrap:pretty}
+.w-btns{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px}
+
+.btn{font:600 13px/1 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  padding:9px 13px;color:var(--tx);background:var(--panel);
+  border:2px solid var(--ol);border-radius:max(2px,calc(var(--rad) * .5));
+  box-shadow:0 2px 0 var(--ol);cursor:pointer;transition:transform .08s,box-shadow .08s}
+.btn:active{transform:translateY(2px);box-shadow:none}
+.btn.p{background:var(--ac);color:var(--acx)}
+.btn.ptd{outline:2px dashed var(--ac);outline-offset:3px}   /* кнопка, на которую указывает лапка */
+
+.paw{position:absolute;z-index:3;pointer-events:none;
+  width:calc(var(--u) * var(--n,19));height:calc(var(--u) * var(--n,19))}
+/* позиция задаётся от угла окна: --reach = на сколько рамка охвачена снаружи, --px/--py = независимое смещение */
+.notif[data-cx="l"] .paw{left:calc(var(--reach) * -1 + var(--px))}
+.notif[data-cx="r"] .paw{right:calc(var(--reach) * -1 - var(--px))}
+.notif[data-cy="t"] .paw{top:calc(var(--reach) * -1 + var(--py))}
+.notif[data-cy="b"] .paw{bottom:calc(var(--reach) * -1 - var(--py))}
+.paw-peek,.paw-motion{width:100%;height:100%}
+.paw canvas{display:block;width:100%;height:100%;image-rendering:crisp-edges;image-rendering:pixelated}
+
+#stage{--spd:1}                               /* скорость задаётся на сцене и наследуется */
+.notif{--sd:0}                                /* пауза до начала состояния, ставит логика */
+
+/* --- 4a. появление --- */
+@keyframes win-fade{from{opacity:0}to{opacity:1}}
+@keyframes win-shift{from{opacity:0;transform:translateY(calc(var(--oy) * 10px))}to{opacity:1;transform:none}}
+@keyframes paw-peek{
+  0%{opacity:0;transform:translate(calc(var(--ox) * var(--u) * 7),calc(var(--oy) * var(--u) * 7))}
+  40%{opacity:1}
+  100%{opacity:1;transform:none}}
+
+/* full: окно слегка смещается и проявляется → пауза → лапка выглядывает из-за угла */
+.notif.play[data-phase="seq"][data-appear="full"] .window{animation:win-shift calc(.4s / var(--spd)) ease-out both}
+.notif.play[data-phase="seq"][data-appear="full"] .paw-peek{animation:paw-peek calc(.5s / var(--spd)) cubic-bezier(.2,.8,.3,1) calc(.75s / var(--spd)) both}
+/* fade: плавно проявляются окно и лапка */
+.notif.play[data-phase="seq"][data-appear="fade"] .window,
+.notif.play[data-phase="seq"][data-appear="fade"] .paw-peek{animation:win-fade calc(.45s / var(--spd)) ease-out both}
+/* shift: проявление + смещение на несколько пикселей */
+.notif.play[data-phase="seq"][data-appear="shift"] .window,
+.notif.play[data-phase="seq"][data-appear="shift"] .paw-peek{animation:win-shift calc(.45s / var(--spd)) ease-out both}
+/* peek: окно уже на месте, лапка выглядывает */
+.notif.play[data-phase="seq"][data-appear="peek"] .paw-peek{animation:paw-peek calc(.55s / var(--spd)) cubic-bezier(.2,.8,.3,1) calc(.2s / var(--spd)) both}
+
+/* --- 4b. состояния лапки (движение в единицах пикселя спрайта --u, чтобы оставаться пиксельным при любом размере) --- */
+@keyframes k-idle{
+  from{transform:translate(0,0)}
+  to{transform:translate(calc(var(--ox) * var(--u) * .5),calc(var(--oy) * var(--u) * 1))}}
+
+@keyframes k-attention{          /* два постукивания: подъём → удар по рамке → возврат, дважды, затем покой */
+  0%,12%{transform:translate(0,0);animation-timing-function:ease-out}
+  18%{transform:translate(0,calc(var(--oy) * var(--u) * 2));animation-timing-function:ease-in}
+  22%{transform:translate(0,calc(var(--oy) * var(--u) * -.5));animation-timing-function:ease-out}
+  26%{transform:translate(0,0);animation-timing-function:ease-out}
+  32%{transform:translate(0,calc(var(--oy) * var(--u) * 2));animation-timing-function:ease-in}
+  36%{transform:translate(0,calc(var(--oy) * var(--u) * -.5));animation-timing-function:ease-out}
+  40%,100%{transform:translate(0,0)}}
+
+@keyframes k-pointing{           /* лёгкое «тыканье» в сторону окна */
+  0%,70%,100%{transform:translate(0,0)}
+  16%,40%{transform:translate(calc(var(--ox) * var(--u) * -2),calc(var(--oy) * var(--u) * -2))}
+  28%{transform:translate(calc(var(--ox) * var(--u) * -1),calc(var(--oy) * var(--u) * -1))}}
+
+@keyframes k-disappointed{       /* медленно отстраняется от рамки и остаётся так */
+  from{transform:translate(0,0)}
+  to{transform:translate(calc(var(--ox) * var(--u) * 2),calc(var(--oy) * var(--u) * 3))}}
+
+@keyframes k-happy{              /* два небольших прыжка вверх */
+  0%{transform:translateY(0);animation-timing-function:ease-out}
+  12%{transform:translateY(calc(var(--u) * -3));animation-timing-function:ease-in}
+  24%{transform:translateY(0);animation-timing-function:ease-out}
+  32%{transform:translateY(calc(var(--u) * -1.5));animation-timing-function:ease-in}
+  40%,100%{transform:translateY(0)}}
+
+@keyframes k-hide{               /* плавно уходит за край окна */
+  from{opacity:1;transform:translate(0,0)}
+  to{opacity:0;transform:translate(calc(var(--ox) * var(--u) * 9),calc(var(--oy) * var(--u) * 9))}}
+
+.notif.play[data-state="idle"] .paw-motion{animation:k-idle calc(2.6s / var(--spd)) ease-in-out calc(var(--sd) * 1s / var(--spd)) infinite alternate both}
+.notif.play[data-state="attention"] .paw-motion{animation:k-attention calc(3.6s / var(--spd)) linear calc(var(--sd) * 1s / var(--spd)) infinite both}
+.notif.play[data-state="pointing"] .paw-motion{animation:k-pointing calc(2.8s / var(--spd)) ease-in-out calc(var(--sd) * 1s / var(--spd)) infinite both}
+.notif.play[data-state="disappointed"] .paw-motion{animation:k-disappointed calc(1.8s / var(--spd)) ease-in-out calc(var(--sd) * 1s / var(--spd)) 1 forwards}
+.notif.play[data-state="happy"] .paw-motion{animation:k-happy calc(3s / var(--spd)) linear calc(var(--sd) * 1s / var(--spd)) infinite both}
+.notif.play[data-state="hide"] .paw-motion{animation:k-hide calc(1s / var(--spd)) ease-in calc(var(--sd) * 1s / var(--spd)) 1 forwards}
+</style></head><body>
+<header class="bar"><div class="prog"></div><div class="w bar-in"><a class="logo" href="#top">Furry Companion</a><nav><a href="#how">Как работает</a><a href="#status">Статус</a><a href="#lapka">Лапка</a><a href="#privacy">Приватность</a><a href="#start">Запуск</a></nav></div></header>
+<main>
+<section id="top" class="w hero"><canvas id="grid" aria-hidden="true"></canvas>
+<p class="badge"><i></i>В разработке: готовых сборок и установщика пока нет</p>
+<h1 aria-label="Мотя"><span aria-hidden="true">М</span><span aria-hidden="true">о</span><span aria-hidden="true">т</span><span aria-hidden="true">я</span></h1>
+<p class="lead">Котик из пикселей на экране телефона. Он следит за тем, что происходит на вашем компьютере, и отвечает мордочкой, ушами и мяуканьем.</p>
+<div class="dev"><canvas id="hero" role="img" aria-label="Живая LED-мордочка Моти"></canvas><div class="cap" id="heroName"></div></div>
+<div class="row"><button class="pill go" id="nextEmo">Другая эмоция</button><button class="pill" id="nextTh">Тема: обычная</button><button class="pill" id="reroll">Новые аксессуары</button></div>
+<p class="note">Двигайте курсором: Мотя следит взглядом. Нажмите на мордочку, и она сменит эмоцию. Это настоящий LED-движок из companion-meow.html, подписи эмоций остались на белорусском, как в нём.</p>
+</section>
+<div class="tick" aria-hidden="true"><div><span>pc.app.focus</span><b>■</b><span>pc.work.proud</span><b>■</b><span>pc.cpu.high</span><b>■</b><span>pc.battery.low15</span><b>■</b><span>pc.input.idle.3m</span><b>■</b><span>pc.notify.mail</span><b>■</b><span>pc.browser.code</span><b>■</b><span>pc.task.due</span><b>■</b><span>phone.touch.pet</span><b>■</b><span>phone.hit.back</span><b>■</b><span>phone.battery.low</span><b>■</b><span>link.failed</span><b>■</b><span>pc.paw.suggest</span><b>■</b><span>pc.app.focus</span><b>■</b><span>pc.work.proud</span><b>■</b><span>pc.cpu.high</span><b>■</b><span>pc.battery.low15</span><b>■</b><span>pc.input.idle.3m</span><b>■</b><span>pc.notify.mail</span><b>■</b><span>pc.browser.code</span><b>■</b><span>pc.task.due</span><b>■</b><span>phone.touch.pet</span><b>■</b><span>phone.hit.back</span><b>■</b><span>phone.battery.low</span><b>■</b><span>link.failed</span><b>■</b><span>pc.paw.suggest</span><b>■</b></div></div>
+
+<section id="how" class="w">
+<h2>Два приложения, одна локальная сеть</h2>
+<p>Проект состоит из агента для Windows и клиента для Android. Они находят друг друга сами и общаются по WebSocket, интернет не нужен.</p>
+<div class="duo">
+<div><h3>Агент на ПК</h3><ul><li>Python 3.11+, живёт в трее</li><li>замечает активное окно, нагрузку CPU, батарею, простой, сеть</li><li>считает работу и отдых за день</li><li>команды: mute, lock, sleep, громкость</li></ul></div>
+<div><h3>Клиент на телефоне</h3><ul><li>Kotlin и Jetpack Compose</li><li>LED-мордочка на чёрном фоне, движок эмоций с 202 правилами</li><li>касания, поглаживание, удар по крышке</li><li>Помодоро, задачи, присутствие и сон</li></ul></div>
+<div class="link"><div class="wire" aria-hidden="true"><i></i><i></i><i></i></div><code id="msg" aria-live="off"></code></div>
+</div>
+<h3>Как событие превращается в реакцию</h3>
+<p>Нажмите кнопку: агент «пришлёт» событие, а Мотя ответит так, как описано в README.</p>
+<div class="ev"><div><div class="dev"><canvas id="evcv" role="img" aria-label="Мордочка Моти реагирует на событие"></canvas></div><p id="evlog"></p></div><div><button class="pill go" id="evnext">Следующее событие</button><p class="note" style="margin-top:12px">События идут по очереди. Это упрощённая демонстрация, настоящие правила богаче.</p></div></div>
+</section>
+
+<div class="orn" aria-hidden="true"></div><section id="status" class="w">
+<h2>Что готово, а что нет</h2>
+<p>Проект в активной разработке. Всё ниже взято из README и проверено автором только в той мере, как там написано.</p>
+<div class="cols">
+<div><h3>Работает</h3><ul class="ok">
+<li>Поиск ПК по mDNS, вход по токену, коду или QR</li>
+<li>Переподключение, фоновый сервис с уведомлением</li>
+<li>Каталог из 73 эмоций, три сезонные темы, календарь праздников</li>
+<li>Касания, поглаживание, удар по задней крышке, 4 мяуканья</li>
+<li>Присутствие по камере (ML Kit на устройстве), сон ПК и пробуждение по Wake-on-LAN</li>
+<li>Помодоро, Google Tasks, шаги, сон и пульс из Health Connect, экранное время</li>
+<li>Блокировка выбранных приложений на время фокуса</li>
+<li>Paw Intervention на ПК с HTML-окном настроек</li></ul></div>
+<div><h3>Заморожено или не доделано</h3><ul class="wr">
+<li>Notion выключен флагом, код сохранён</li>
+<li>Переключателя тем в интерфейсе нет</li>
+<li>Часть событий ждёт источников: объятие, «соскучился», события суток</li>
+<li>Нет автозапуска после перезагрузки телефона</li>
+<li>Токен сопряжения лежит без отдельного шифрования</li>
+<li>Датчики телефона, звонки и SMS не подключены</li>
+<li>Полный ручной прогон всех экранов не делался: release-APK запускался на одном Honor без падений</li></ul></div>
+<div><h3>Ограничения</h3><ul class="no">
+<li>Агент работает только на Windows, установщика и службы нет</li>
+<li>Windows не умеет блокировать программы без драйвера: Мотя сворачивает окно, его можно открыть снова</li>
+<li>Wake-on-LAN зависит от BIOS, сетевой карты и роутера</li>
+<li>Play Protect блокирует APK с доступом к специальным возможностям: ставить нужно через adb</li>
+<li>Постоянная камера и wakelock тратят батарею</li></ul></div>
+</div>
+<p class="note" style="margin-top:20px">Автотесты по README: 162 JVM-теста ядра и 24 теста приложения на Android, 504 теста агента на Python.</p>
+</section>
+
+<div class="orn" aria-hidden="true"></div><section id="lapka" class="w">
+<h2>Лапка, которая просит вернуться к работе</h2>
+<p>Paw Intervention замечает повторяющиеся отвлечения: две минуты подряд или три возврата к одному приложению за десять минут. Тогда поверх рабочего стола выглядывает лапка с карточкой. Отказ принимается без обиды, предложение не повторяется 45 минут.</p>
+<p>Ниже прототип из файла paw-intervention.html. Нажимайте кнопки прямо в карточке: лапка отреагирует. На ПК тот же код рисует прозрачное окно WebView2, а без него запускается запасной вариант на Tk.</p>
+<div id="stage" data-cx="l" data-cy="t"><div class="notif" id="notif"><div class="window" id="win" role="alertdialog"></div><div class="paw" id="paw" aria-hidden="true"><div class="paw-peek"><div class="paw-motion"><canvas id="pawc"></canvas></div></div></div></div></div>
+<div class="row"><button class="pill go" id="p-type">Другое окно</button><button class="pill" id="p-skin">Другой цвет</button><button class="pill" id="p-corner">Другой угол</button><button class="pill" id="b-run">Показать заново</button></div>
+<p id="hint"></p>
+</section>
+
+<div class="orn" aria-hidden="true"></div><section id="privacy" class="w">
+<h2>Что агент видит и что нет</h2>
+<table>
+<tr><th>Активное окно</th><td>Имя процесса. Заголовки окон не читаются.</td></tr>
+<tr><th>Браузер</th><td>Только домен и его категория. Путь, параметры, заголовок вкладки и содержимое страницы не читаются, почта, банки и мессенджеры исключены.</td></tr>
+<tr><th>Уведомления Windows</th><td>Приложение и номер уведомления. Заголовок, текст и отправитель не запрашиваются.</td></tr>
+<tr><th>Камера телефона</th><td>Лицо ищет локальная модель, кадры не сохраняются и не уходят в сеть. Камеру можно выключить.</td></tr>
+<tr><th>Здоровье и экранное время</th><td>На ПК уходят только дневные итоги: шаги и минуты. Сырые записи остаются на телефоне.</td></tr>
+<tr><th>Сеть</th><td>Трафик идёт только внутри локальной сети, подключения из публичных адресов отклоняются.</td></tr>
+</table>
+</section>
+
+<div class="orn" aria-hidden="true"></div><section id="start" class="w">
+<h2>Запуск</h2>
+<p>Это инструкция для разработчика, а не установщик. Нужны Python 3.11+, JDK 17 и Android SDK с platform 36.</p>
+<h3>Агент на Windows</h3>
+<pre>python -m pip install -r requirements.txt
+python -m companion_agent --open-firewall
+python -m companion_agent</pre>
+<p>Откройте в трее «Показать QR» и отсканируйте его в приложении. Телефон и ПК должны быть в одной сети Wi-Fi.</p>
+<h3>Клиент для Android</h3>
+<pre>cd android
+./gradlew :core:coreTest :app:assembleDebug
+./gradlew :app:assembleRelease
+adb install -r app/build/outputs/apk/release/app-release.apk</pre>
+<p class="note">Вход в Google Tasks на телефоне зависит от отпечатка подписи: после смены ключа его нужно добавить в Google Cloud Console.</p>
+</section>
+</main>
+<footer><div class="w">Страница собрана по README_AGENT и README_ANDROID. Демонстрации работают на коде из companion-meow.html и paw-intervention.html.</div></footer>
+<script id="engine">
+// ===== LED-рухавік: сетка 64x32, значэнне пікселя = індэкс колеру ў P (0 = патухла) =====
+// Структура: 1 палітра і прымітывы · 2 шрыфт · 3 агульныя элементы · 4 тэма «Новы год» · 5 тэма «Масленіца» · 6 тэма «9 мая»
+//            · 7 базавыя сцэны · 8 THEMES (рэестр тэм) · 9 вочы / рот / дадаткі · 10 сцэны SC · 11 аксесуары і render() · 12 каталог эмоцый EM
+
+// ---- 1. палітра і прымітывы ----
+const W=64,H=32;let g,OX=0,OY=0,CC=1,TH='';
+const P={1:'#e8f1ff',2:'#c8313e',3:'#4aa657',4:'#f4f0e4',5:'#e8c35a',6:'#4d7cff',7:'#c79a5e',8:'#6b4a24',9:'#ff8fa3'};
+// 2 чырвоны і 3 зялёны — колеры дзяржаўнага сцяга; 4 белы; 5 салома; 6 васілёк; 7 бульба; 8 цёмная пляма; 9 румяны
+const px=(x,y)=>{x=Math.round(x+OX);y=Math.round(y+OY);if(x>=0&&x<W&&y>=0&&y<H)g[y*W+x]=CC};
+const ln=(a,b,c,d)=>{const n=Math.max(Math.abs(c-a),Math.abs(d-b))||1;for(let i=0;i<=n;i++)px(a+(c-a)*i/n,b+(d-b)*i/n)};
+const rc=(a,b,c,d)=>{ln(a,b,c,b);ln(a,d,c,d);ln(a,b,a,d);ln(c,b,c,d)};
+const el=(cx,cy,rx,ry,f=1,th=1.6)=>{for(let y=-ry-1;y<=ry+1;y++)for(let x=-rx-1;x<=rx+1;x++){const d=(x/rx)**2+(y/ry)**2;if(d<=1&&(f||ry<th+.8||(x/(rx-th))**2+(y/(ry-th))**2>=1))px(cx+x,cy+y)}};
+const mirror=(L,fn)=>L.forEach(([x,y])=>{fn(x,y);fn(63-x,y)});
+const bm=(R,cx,cy)=>R.forEach((r,j)=>[...r].forEach((c,i)=>c=='1'&&px(cx+i-(r.length>>1),cy+j-(R.length>>1))));
+const arcY=x=>9-Math.round(6*(1-((x-32)/20)**2)); // дуга над галавой для вянкоў
+
+// ---- 2. шрыфт (радкі праз "/"), Й мае 6 радкоў (брэўе над літарай) ----
+const F={"П":"111/101/101/101/101","О":"111/101/101/101/111","Ш":"10101/10101/10101/10101/11111","У":"101/101/111/001/110","К":"101/101/110/101/101","В":"110/101/110/101/110","І":"111/010/010/010/111","Т":"111/010/010/010/010","А":"010/101/111/101/101","Ю":"10111/10101/11101/10101/10111","!":"1/1/1/0/1","Ч":"101/101/111/001/001","Й":"0110/1001/1011/1101/1001/1001","Ф":"01110/10101/10101/01110/00100","Н":"101/101/111/101/101","З":"111/001/011/001/111","Р":"110/101/110/100/100","Я":"011/101/011/101/101","Д":"011/101/101/111/101","Л":"011/101/101/101/101","Z":"111/001/010/100/111","Ы":"10001/10001/11101/10101/11101","М":"10001/11011/10101/10001/10001","Г":"111/100/100/100/100"," ":"0/0/0/0/0","Б":"111/100/110/101/110","9":"111/101/111/001/111"};
+const gl=ch=>F[ch]&&F[ch].split('/');
+const txt=(s,x,y,sc=2)=>{for(const ch of s){const R=gl(ch);if(!R)continue;R.forEach((r,j)=>[...r].forEach((c,i)=>{if(c=='1')for(let a=0;a<sc;a++)for(let b=0;b<sc;b++)px(x+i*sc+a,y+(j-R.length+5)*sc+b)}));x+=(R[0].length+1)*sc}};
+const tw=(s,sc)=>[...s].reduce((a,ch)=>a+((gl(ch)||[''])[0].length+1)*sc,-sc);
+const txtC=(s,y,sc)=>txt(s,Math.round((W-tw(s,sc))/2),y,sc);
+
+// ---- 3. агульныя элементы ----
+// васілёк: n пялёсткаў, якія круцяцца (у тэмах замяняецца на THEMES[..].bloom)
+function vas(cx,cy,r,t,sp,n=8){const B=THEMES[TH].bloom;if(B)return B(cx,cy,r,t,sp);CC=6;for(let k=0;k<n;k++){const a=t*sp+k*2*Math.PI/n,c=Math.cos(a),s=Math.sin(a);ln(cx+c*r*.4,cy+s*r*.4,cx+c*r,cy+s*r)}CC=4;px(cx,cy);CC=1}
+// саламяны капялюш
+function hat(){CC=5;el(32,3,7,3,1);CC=2;ln(26,4,38,4);CC=5;for(let x=16;x<=48;x++){px(x,5);if(x>17&&x<47)px(x,6)}CC=1}
+// вяночак з васількоў, рамонкаў і лісця
+function wreath(){for(let x=12;x<=52;x++){CC=3;const y=arcY(x);px(x,y-1);px(x,y);px(x,y+1);if(x%3==0){px(x+1,y-2);px(x,y-3)}if(x%3==1)px(x-1,y+2)}for(let k=0;k<9;k++){const x=15+k*4.5,y=arcY(Math.round(x))-1;CC=[6,9,4,5][k%4];px(x,y-2);px(x-2,y);px(x+2,y);px(x,y+2);px(x-1,y-1);px(x+1,y-1);px(x-1,y+1);px(x+1,y+1);CC=k%2?5:2;px(x,y)}CC=1}
+// маленькі сцяжок на дрэўку за кацяняткам (1:2, чырвонае 2/3, зялёнае 1/3, белая палоска ля дрэўка); у тэме «9 мая» — чырвоны са залатой зоркай
+function pole(t){CC=4;ln(62,10,62,31);CC=5;px(62,9);for(let x=51;x<=61;x++){const d=61-x,off=Math.round(Math.sin(t*5+d*.6)*.8*d/10);for(let y=10;y<=15;y++){CC=TH=='vd'||TH=='oc'?2:d==0?(y%2?2:4):y<14?2:3;px(x,y+off);if(TH=='vd'&&((d==2&&y>=11&&y<=13)||(y==12&&(d==1||d==3)))){CC=5;px(x,y+off)}}}CC=1}
+// дзяржаўны сцяг Рэспублікі Беларусь: 1:2 (64x32), чырвонае поле 2/3, зялёнае 1/3, на дрэўку белая палоса 1/9 даўжыні з чырвоным арнаментам (спрошчаны да 7 px)
+const OR=["0001000","0011100","0110110","1101011","0110110","0011100","0001000","0101010","1010101","0101010"];
+function flag(t){return TH=='vd'?sflag(t):bflag(t)}
+function bflag(t){for(let x=0;x<W;x++){const off=Math.round(Math.sin(t*3+x*.18)*1.6*x/W);for(let y=0;y<H;y++){const sy=Math.min(H-1,Math.max(0,y-off));CC=x<7?(OR[sy%10][x]=='1'?2:4):sy<21?2:3;px(x,y)}}CC=1}
+// ромбавы арнамент (ручнік) па ўсёй шырыні
+function orn(y0){CC=2;for(let x=0;x<W;x++)for(let y=0;y<5;y++)if(Math.abs((x%6)-2.5)+Math.abs(y-2)<=2.2)px(x,y0+y);CC=1}
+// зімовая птушка: x,y — цэнтр цела, c1 — колер грудзей (2 снегір, 5 сініца, 8 грак), fl — мах крылам
+function bird(x,y,c1,fl){CC=c1;el(x,y,2,1,1);CC=8;px(x+2,y-1);px(x+3,y-1);px(x+2,y-2);CC=5;px(x+4,y-1);CC=6;ln(x-1,y-1,x-3,y-1-fl);CC=8;ln(x-2,y,x-4,y+1);CC=1}
+// загрузка «засыпае экран»: аб'екты падаюць і ляжаць слаямі. Адзін алгарытм для бульбы, блінаў, снегу і яблыневага цвету.
+// rate — аб'ектаў/с, mod — колькі ўсяго, r — паўшырыня, n/off — дыяпазон слупкоў, lim — максімальная вышыня, base — нізавы радок,
+// top — стартавая вышыня падзення, add — прыбаўка вышыні пасля пасадкі, draw(i,x,y) — малюе адзін аб'ект
+function pile(t,{rate,mod,r,n,off,lim,base,top,add,draw}){const N=Math.floor(t*rate)%mod,f=(t*rate)%1,Hh=new Array(W).fill(0),mh=c=>Math.max(...Hh.slice(c-r,c+r+1));
+ const put=(i,fall)=>{let cx=0,h=99;for(let j=0;j<4;j++){const c=(i*37+j*23+(i*i*13)%29)%n+off,m=mh(c);if(m<h){h=m;cx=c}}if(h>lim)for(let c=off;c<off+n;c++){const m=mh(c);if(m<h){h=m;cx=c}}if(h>lim)return;const y=base-h,yy=fall?-top+(y+top)*fall:y;draw(i,cx,yy);if(!fall)for(let x=cx-r;x<=cx+r;x++)Hh[x]=h+add};
+ for(let i=0;i<N;i++)put(i);put(N,f);CC=1}
+// бульба сыплецца і засыпае экран
+function bulba(t){pile(t,{rate:18,mod:210,r:2,n:60,off:2,lim:28,base:29,top:3,add:4,draw:(i,cx,yy)=>{const rx=2+(i%3==0);CC=7;el(cx,yy,rx,2,1);CC=8;px(cx-1,yy);px(cx+1,yy+1)}})}
+
+// ---- 4. Тэма «Новы год»: каўпак Дзеда Мароза, яловы вянок, талісманы, ялка, паўучок з саломы, снегапад-загрузка ----
+// снежанка (замест васілька ў зімавай тэме)
+function flake(cx,cy,r,t,sp){CC=4;for(let k=0;k<6;k++){const a=t*sp*.5+k*Math.PI/3,c=Math.cos(a),s=Math.sin(a);ln(cx,cy,cx+c*r,cy+s*r);if(r>2.5){const m=r*.55;for(const d of[-1,1]){const b=a+d*Math.PI/4;ln(cx+c*m,cy+s*m,cx+c*m+Math.cos(b)*r*.3,cy+s*m+Math.sin(b)*r*.3)}}}CC=6;px(cx,cy);CC=1}
+// зімовы пейзаж: месяц, зоркі, ёлкі, хата з дымам, замёрзлая рака, снегір на галінцы і сініца ў поўзені
+function winter(t){CC=5;for(let y=-2;y<=2;y++)for(let x=-2;x<=2;x++)if(x*x+y*y<=5&&(x+1)**2+(y-1)**2>2)px(44+x,5+y);
+ CC=4;for(let k=0;k<12;k++)if(Math.sin(t*2+k*3.1)>.1)px((k*29+13)%62+1,(k*7)%10+1);
+ for(let x=0;x<W;x++){const y=22+Math.round(Math.sin(x*.25));for(let yy=y;yy<=23;yy++)px(x,yy)}
+ CC=6;for(let y=24;y<=26;y++)for(let x=0;x<W;x++)if((x+y*2)%4)px(x,y);CC=4;for(let k=0;k<6;k++)if(Math.sin(t*3+k*2)>.7)px((k*11+4)%60,25);
+ [6,56].forEach(x=>{for(let j=0;j<3;j++){const top=7+j*5,bot=top+6,mx=2+j*2;CC=3;for(let y=top;y<=bot;y++){const hw=(y-top)/(bot-top)*mx+1;ln(x-hw,y,x+hw,y)}CC=4;px(x,top);px(x-1,top+1);px(x+1,top+1)}});
+ CC=8;for(let y=17;y<=23;y++)ln(24,y,36,y);CC=4;for(let y=11;y<=17;y++){const hw=(y-11)/6*9+1;ln(30-hw,y,30+hw,y)}
+ CC=5;if(Math.sin(t*3)>-.6){px(28,19);px(29,19);px(28,20);px(29,20)}CC=7;ln(32,20,32,23);ln(33,20,33,23);CC=8;ln(35,9,35,12);CC=4;for(let k=0;k<5;k++)px(35+Math.sin(t*2+k)*2+k*.7,9-((t*4+k*2)%10));
+ CC=8;ln(12,17,17,16);bird(15,15,2,Math.round(Math.sin(t*3)));bird(((t*12)%80)-12,5+Math.round(Math.sin(t*2)*2),5,Math.round(Math.sin(t*14)*2));
+ CC=4;for(let k=0;k<14;k++)px((k*17+3)%64+Math.sin(t+k)*1.5,(t*5+k*5)%30);orn(27)}
+function santa(){CC=6;el(32,3,8,4,1);CC=4;for(let x=17;x<=47;x++){px(x,5);if(x>18&&x<46)px(x,6)}CC=6;ln(38,1,46,2);CC=5;el(47,2,1,1,1);CC=1}
+function fir(t){CC=3;for(let x=12;x<=52;x++){const y=arcY(x);px(x,y-1);px(x,y);px(x,y+1);if(x%2)px(x,y-2);else px(x,y+2)}for(let k=0;k<9;k++){const x=15+k*4.5,y=arcY(Math.round(x))-1;CC=[2,5,6,4][(k+Math.floor(t*3))%4];px(x,y-1);px(x-1,y);px(x+1,y);px(x,y+1);px(x,y)}CC=1}
+function charmNY(t,k){const b=Math.round(Math.sin(t*3)*.6);
+ if(k==1){CC=3;for(let r=0;r<5;r++){ln(5-r,19+r*2,7+r,19+r*2);ln(5-r,20+r*2,7+r,20+r*2)}CC=8;ln(6,29,6,30);[[6,21],[4,23],[8,25],[3,27],[9,27]].forEach(([x,y],i)=>{CC=[2,5,6][(i+Math.floor(t*3))%3];px(x,y)});CC=5;if(Math.sin(t*6)>0){px(6,16);px(6,17);px(5,18);px(7,18)}else{px(6,17);px(6,18)}}
+ if(k==2){CC=4;el(6,28+b,4,3,1);el(6,23+b,3,2,1);el(6,19+b,2,2,1);CC=8;px(5,18+b);px(7,18+b);CC=5;px(6,19+b);CC=6;ln(4,21+b,8,21+b)}
+ if(k==3){CC=6;for(let y=24;y<=30;y++)ln(2,y+b,10,y+b);CC=5;ln(6,24+b,6,30+b);ln(2,27+b,10,27+b);px(5,23+b);px(7,23+b);px(4,22+b);px(8,22+b)}
+ CC=1}
+function snowfill(t){pile(t,{rate:40,mod:330,r:1,n:62,off:1,lim:29,base:30,top:2,add:3,draw:(i,cx,yy)=>{CC=i%5==0?6:4;for(let dx=-1;dx<=1;dx++)for(let dy=-1;dy<=1;dy++)px(cx+dx,yy+dy)}})}
+function newyear(t){txtC('З НОВЫМ',1,2);txtC('ГОДАМ!',13,2);CC=3;for(let x=0;x<W;x++){const y=27+Math.round(2*Math.sin(x*.25));px(x,y);if(x%6==3){CC=[2,5,6,4][(Math.floor(x/6)+Math.floor(t*3))%4];px(x,y+1);px(x,y+2);CC=3}}CC=4;for(let k=0;k<10;k++)px((k*17+7)%64,((t*6+k*5)%28)+1);CC=1}
+function tree(t){for(let i=0;i<3;i++){const top=5+i*7,bot=top+9,mx=5+i*3;for(let y=top;y<=bot;y++){const hw=(y-top)/(bot-top)*mx+1;CC=3;ln(32-hw,y,32+hw,y)}}CC=8;ln(31,28,33,28);ln(31,29,33,29);ln(31,30,33,30);CC=5;px(32,2);px(32,3);px(32,4);if(Math.sin(t*6)>0){px(31,3);px(33,3)}for(let k=0;k<16;k++){const y=8+(k*7)%19,hw=(y-5)*.4,x=32+Math.round(Math.sin(k*2.4)*Math.min(hw,9));CC=[2,5,6,4][(k+Math.floor(t*3))%4];px(x,y)}CC=4;for(let k=0;k<12;k++){const sx=(k*17+3)%64,sy=((t*6+k*5)%34)-2;if(Math.abs(sx-32)>14||sy<2)px(sx,sy)}CC=1}
+function pavuk(t){const w=Math.abs(Math.cos(t*1.2))*10+1,c=14;CC=4;ln(32,0,32,5);CC=5;const dm=(x,y,rx,ry)=>{ln(x,y-ry,x+rx,y);ln(x+rx,y,x,y+ry);ln(x,y+ry,x-rx,y);ln(x-rx,y,x,y-ry)};dm(32,c,w,8);dm(32,c,w*.5,4);dm(32+w,c,2.5,3);dm(32-w,c,2.5,3);dm(32,c-8,2.5,3);dm(32,c+8,2.5,3);CC=2;px(32,c);CC=5;ln(32,c+11,32,c+16);ln(32,c+11,29,c+16);ln(32,c+11,35,c+16);CC=1}
+
+// ---- 5. Тэма «Масленіца»: блін-капялюш, хустка, самавар/бліны/санкі, сонца замест васілька, блінапад-загрузка, сані з конікам ----
+function sunb(cx,cy,r,t,sp){CC=5;el(cx,cy,r*.45,r*.45,1);for(let k=0;k<8;k++){const a=t*sp*.5+k*Math.PI/4,c=Math.cos(a),s=Math.sin(a);ln(cx+c*r*.6,cy+s*r*.6,cx+c*r,cy+s*r)}CC=2;px(cx,cy);CC=1}
+function blinhat(){CC=7;el(32,3,9,3,1);CC=5;el(32,3,8,2,1);CC=4;ln(31,2,33,2);ln(31,3,33,3);CC=1}
+function hustka(){for(let x=12;x<=52;x++){const y=arcY(x);CC=6;px(x,y-1);px(x,y);px(x,y+1);px(x,y+2);if(x%4==0){CC=5;px(x,y)}if(x%4==2){CC=9;px(x,y+1)}}CC=6;ln(52,arcY(52)+2,55,arcY(52)+6);ln(51,arcY(51)+2,53,arcY(51)+6);CC=1}
+function charmMS(t,k){const b=Math.round(Math.sin(t*3)*.6);
+ if(k==1){CC=5;el(6,25,3,4,1);CC=4;px(5,23);px(5,24);CC=7;ln(4,21,8,21);ln(6,19,6,21);px(10,25);px(11,25);px(11,26);CC=8;ln(4,29,8,29);CC=4;for(let i=0;i<3;i++)px(6+Math.sin(t*3+i)*1.5,18-((t*3+i*2)%8))}
+ if(k==2){for(let i=0;i<4;i++){CC=i%2?7:5;el(6,28-i*2+b,5,1,1)}CC=4;ln(5,19+b,7,19+b);CC=2;px(8,19+b)}
+ if(k==3){CC=8;ln(1,29+b,11,29+b);ln(11,29+b,12,27+b);CC=6;for(let y=25;y<=27;y++)ln(3,y+b,9,y+b);CC=5;ln(3,24+b,9,24+b);px(12,26+b)}
+ CC=1}
+function blinfill(t){pile(t,{rate:30,mod:260,r:3,n:58,off:3,lim:29,base:30,top:2,add:2,draw:(i,cx,yy)=>{CC=i%2?7:5;el(cx,yy,3,1,1);if(i%9==0){CC=4;px(cx,yy-1)}}})}
+function bliny(t){txtC('БЛІНЫ!',2,2);for(let i=0;i<4;i++){CC=i%2?7:5;el(32,28-i*3,13,2,1)}CC=4;el(32,16,3,1,1);for(let k=0;k<3;k++)px(24+k*8+Math.sin(t*2+k)*2,14-((t*3+k*2)%5));CC=1}
+function sunscr(t){const c=15;CC=5;for(let k=0;k<12;k++){const a=t*.6+k*Math.PI/6,l=13+(k%2?2:0)+Math.round(Math.sin(t*4+k)),c1=Math.cos(a),s1=Math.sin(a);ln(32+c1*9,c+s1*9*.8,32+c1*l,c+s1*l*.8)}el(32,c,8,8,1);CC=8;px(29,13);px(35,13);px(30,17);px(31,18);px(32,18);px(33,18);px(34,17);CC=2;px(28,16);px(36,16);CC=1;orn(27)}
+function maslScene(t){sunb(52,8,8,t,.6);
+ CC=4;for(let x=0;x<W;x++){const y=21+Math.round(Math.sin(x*.2));for(let yy=y;yy<=26;yy++)px(x,yy)}CC=6;for(let k=0;k<9;k++)px((k*13+5)%62,23+k%3);
+ CC=8;for(let y=14;y<=21;y++)ln(3,y,14,y);CC=4;for(let y=9;y<=14;y++){const hw=(y-9)/5*8+1;ln(8.5-hw,y,8.5+hw,y)}CC=5;px(6,17);px(7,17);px(6,18);px(7,18);CC=8;ln(12,7,12,10);CC=4;for(let k=0;k<4;k++)px(12+Math.sin(t*2+k)*2+k*.6,6-((t*3+k*2)%8));
+ const x=((t*14)%110)-30,y=15,ph=t*10;CC=8;el(x,y,4,2,1);ln(x+3,y-1,x+5,y-4);el(x+6,y-4,2,1,1);px(x+7,y-6);CC=7;ln(x+4,y-2,x+4,y-5);ln(x-4,y-1,x-6,y+2);CC=8;for(let i=0;i<4;i++){const lx=x-3+i*2,o=Math.round(Math.sin(ph+i*1.6)*1.5);ln(lx,y+2,lx+o,y+5)}
+ CC=5;ln(x-6,y+1,x-12,y+1);CC=8;ln(x-24,y+5,x-12,y+5);ln(x-12,y+5,x-10,y+3);ln(x-22,y+5,x-22,y+2);ln(x-14,y+5,x-14,y+2);CC=6;for(let yy=y-1;yy<=y+1;yy++)ln(x-22,yy,x-14,yy);CC=5;ln(x-22,y-2,x-14,y-2);px(x-10,y+2);
+ bird(((t*9)%80)-12,4+Math.round(Math.sin(t*2)*2),8,Math.round(Math.sin(t*12)*2));orn(27)}
+
+// ---- 6. Тэма «9 мая — Дзень Перамогі»: сцяг Перамогі над Рэйхстагам, стужка з яблыневым цветам, пілотка, яблыневы цвет-загрузка ----
+function blossom(cx,cy,r,t,sp){for(let k=0;k<5;k++){const a=t*sp*.3+k*2*Math.PI/5-Math.PI/2,x=cx+Math.cos(a)*r*.6,y=cy+Math.sin(a)*r*.6;CC=4;el(x,y,r*.4,r*.4,1);CC=9;px(cx+Math.cos(a)*r*.95,cy+Math.sin(a)*r*.95)}CC=5;el(cx,cy,r*.22,r*.22,1);CC=1}
+function pilotka(){CC=3;for(let y=0;y<=6;y++)ln(25-Math.round(y*1.33),y,39+Math.round(y*1.33),y);CC=2;px(32,3);px(31,3);px(33,3);px(32,2);px(32,4);CC=5;ln(17,6,47,6);CC=1}
+function kaska(){CC=3;for(let y=0;y<=7;y++){const hw=Math.round(Math.sqrt(Math.max(0,1-((y-7)/8)**2))*12);ln(32-hw,y,32+hw,y)}ln(19,7,45,7);CC=8;ln(20,8,44,8);CC=2;bm(['00100','11111','01110','11011','10001'],32,3);CC=1}
+// «Кветка Вялікай Перамогі»: чырвона-зялёная стужка са яблыневым цветам, малюецца заўсёды ў тэме 9 мая (THEMES.vd.post)
+function ribbonPin(t){const b=Math.round(Math.sin(t*3)*.5);CC=2;el(2,5+b,2,2,0);ln(2,7+b,0,12+b);ln(2,7+b,4,12+b);CC=3;ln(3,7+b,1,12+b);ln(3,8+b,5,12+b);CC=4;px(2,6+b);px(1,7+b);px(3,7+b);px(2,8+b);CC=9;px(2,7+b);CC=1}
+function charmVD(t,k){const b=Math.round(Math.sin(t*3)*.6);
+ if(k==1){CC=3;ln(4,30,4,24+b);ln(8,30,8,22+b);px(5,28);px(7,27);CC=2;el(4,23+b,2,2,1);el(8,21+b,2,2,1)}
+ if(k==2){const fl=Math.round(Math.sin(t*8)*2);CC=4;el(6,25+b,3,2,1);px(9,23+b);px(9,22+b);ln(5,24+b,3,22+b-fl);ln(3,26+b,1,28+b);CC=5;px(10,23+b);CC=3;ln(10,24+b,12,22+b)}
+ if(k==3){CC=8;ln(1,30,11,24);[[3,29],[6,27],[9,25],[11,23]].forEach(([x,y],i)=>{CC=4;px(x,y);px(x-1,y);px(x+1,y);px(x,y-1);px(x,y+1);CC=i%2?5:9;px(x,y)})}
+ CC=1}
+function petalfill(t){pile(t,{rate:36,mod:300,r:2,n:60,off:2,lim:29,base:30,top:2,add:2,draw:(i,cx,yy)=>{CC=i%2?4:9;el(cx,yy,2,1,1)}})}
+// малюнкі эмблемы (зорка + серп і молат, спрошчаны) падаецца ў буфер _E адзін раз
+function hs(cx,cy){CC=5;bm(['000001100000000','000011110000000','000111110110000','001111100011100','011111100011100','011111110001110','001100111001110','000000011100110','000000001111110','000000000111110','000000000011110','000000000111100','000111111111000','011111111110000','010000000000000'],cx,cy)}
+let _E=null;function emb(){if(_E)return _E;const sg=g,sx=OX,sy=OY;g=new Uint8Array(W*H);OX=OY=0;CC=5;bm(['0001000','0011100','1111111','0111110','0011100','0110110','1100011'],10,4);hs(10,16);_E=g;g=sg;OX=sx;OY=sy;CC=1;return _E}
+// сцяг Перамогі (чырвонае поле, залатыя зорка і серп і молат у верхнім куце ля дрэўка)
+function sflag(t){const E=emb();for(let x=0;x<W;x++){const off=Math.round(Math.sin(t*3+x*.18)*1.6*x/W);for(let y=0;y<H;y++){const sy=Math.min(H-1,Math.max(0,y-off));CC=E[sy*W+x]?5:2;px(x,y)}}CC=1}
+function ribbonStrip(y0){CC=2;ln(0,y0+1,63,y0+1);ln(0,y0+2,63,y0+2);CC=3;ln(0,y0+3,63,y0+3);CC=1}
+// Рэйхстаг зблізку пад вуглом: купал са рэбрамі, барабан, фасад і бакавая грань у перспектыве, над купалам узнімаецца чырвоны сцяг
+function reich(t){const T=t%12,rise=Math.min(1,T/4);
+ CC=4;for(let k=0;k<10;k++)if(Math.sin(t*2+k*3.1)>.2)px((k*29+7)%62+1,(k*7)%8+1);
+ CC=1;for(let k=0;k<6;k++){const y=24-((t*3+k*4)%24);px(4+k*3+Math.sin(t+k)*2,y);px(5+k*3+Math.sin(t+k)*2,y)}
+ for(let x=0;x<=26;x++){const top=24+Math.round((26-x)*.14),bot=31-Math.round((26-x)*.04);CC=8;ln(x,top,x,bot);CC=7;px(x,top)}
+ CC=5;[22,17,13,10,7].forEach((x,i)=>{if(Math.sin(t*3+x)>-.3){const top=24+Math.round((26-x)*.14);px(x,top+2);px(x,top+3)}});
+ CC=7;for(let y=24;y<=31;y++)ln(26,y,63,y);CC=4;ln(26,24,63,24);ln(26,24,26,31);
+ for(let x0=29;x0<=60;x0+=5){CC=8;for(let y=26;y<=29;y++)ln(x0,y,x0+1,y);if(Math.sin(t*4+x0)>.2){CC=5;px(x0,28);px(x0+1,29)}}
+ CC=7;for(let y=19;y<=23;y++)ln(27,y,49,y);CC=8;for(let x=28;x<=48;x+=3)ln(x,19,x,23);CC=4;ln(26,19,50,19);
+ for(let y=9;y<=18;y++){const u=(y-19)/10,h=Math.round(11*Math.sqrt(1-u*u));CC=1;ln(38-h,y,38+h,y)}
+ CC=8;for(const f of[-1.2,-.6,0,.6,1.2])for(let y=9;y<=18;y++){const u=(y-19)/10;px(38+11*Math.sin(f)*Math.sqrt(1-u*u),y)}ln(29,13,47,13);
+ CC=7;ln(36,8,40,8);ln(37,7,39,7);CC=4;ln(38,7,38,0);
+ const top=Math.round(5*(1-rise));for(let x=39;x<=53;x++){const d=x-39,off=Math.round(Math.sin(t*5+d*.55)*1.4*(d/14)+d*.12);for(let yy=0;yy<5;yy++){CC=(d<=3&&yy>=1&&yy<=2)?5:2;px(x,top+yy+off)}}
+ if(T>4)for(let k=0;k<3;k++){const ph=((T-4)*.9+k*.4)%1,cx=[8,58,22][k],cy=[6,5,3][k],r=ph*9;CC=[5,2,4][k];if(ph<.85)for(let j=0;j<12;j++){const a=j*Math.PI/6;px(cx+Math.cos(a)*r,cy+Math.sin(a)*r)}}
+ CC=1}
+function ribbonScr(t){CC=2;el(32,8,6,6,0);CC=3;el(32,8,4.5,4.5,0);for(const d of[-1,1])for(const o of[-1.2,1.2]){CC=o<0?2:3;ln(32+o,15,32+d*13+o,30)}CC=4;for(let k=0;k<5;k++){const a=t*.3+k*2*Math.PI/5-Math.PI/2;el(32+Math.cos(a)*4.5,15+Math.sin(a)*4.5,3,3,1)}CC=9;for(let k=0;k<5;k++){const a=t*.3+k*2*Math.PI/5-Math.PI/2;px(32+Math.cos(a)*7.5,15+Math.sin(a)*7.5)}CC=5;el(32,15,2,2,1);CC=1}
+function may9(t){txtC('9 МАЯ',2,3);CC=5;for(let k=0;k<6;k++)if(Math.sin(t*4+k*2.2)>.3){const x=(k*11+4)%60+2,y=18+(k*5)%7;px(x,y);px(x-1,y);px(x+1,y);px(x,y-1);px(x,y+1)}ribbonStrip(27)}
+
+// ---- 7. базавыя сцэны (без тэмы): папараць-кветка, бусел, талісманы ----
+function fern(x0,d,hgt,t,ph){CC=3;const sw=Math.sin(t*1.2+ph)*2;for(let i=0;i<=24;i++){const s=i/24,X=x0+d*(9*s*(1-.4*s))+sw*s*s,Y=31-hgt*s;px(X,Y);if(i>3&&i%2==0){const L=Math.round(4*(1-s)+1),m=Math.sin(t*1.8+ph+i*.3);ln(X,Y,X+d*L+m,Y-L*.6);ln(X,Y,X-d*L*.8+m,Y-L*.5)}}}
+// папараць-кветка: расце сцябло, распускаецца, успыхваюць іскры
+function paparats(t){const T=(t%9)/9;fern(2,1,28,t,0);fern(10,1,18,t,2);fern(61,-1,28,t,1);fern(53,-1,18,t,3);
+ const h=Math.round(Math.min(1,T/.35)*16);CC=3;ln(32,31,32,31-h);ln(33,31,33,31-Math.round(h*.8));if(h>4){ln(32,28,26,25);ln(32,28,27,26)}if(h>8){ln(33,24,39,21);ln(33,24,38,22)}if(h>12){ln(32,20,27,17);ln(32,20,28,18)}
+ if(T>.35){const b=Math.min(1,(T-.35)/.35),cy=14;CC=5;for(let k=0;k<12;k++){const a=t*.6+k*Math.PI/6,r=11*b;ln(32+Math.cos(a)*r*.4,cy+Math.sin(a)*r*.4,32+Math.cos(a)*r,cy+Math.sin(a)*r)}CC=9;for(let k=0;k<8;k++){const a=-t*.9+k*Math.PI/4,r=6*b;ln(32+Math.cos(a)*r*.3,cy+Math.sin(a)*r*.3,32+Math.cos(a)*r,cy+Math.sin(a)*r)}CC=2;el(32,cy,1,1,1);if(b>=1&&Math.sin(t*5)>0){CC=4;px(32,cy)}}
+ if(T>.7){CC=4;for(let k=0;k<26;k++){const s=Math.sin(t*4+k*2.3);if(s>.3){const X=32+Math.cos(k*2.1+t*.5)*(8+k%5*4),Y=14+Math.sin(k*1.7+t*.4)*(7+k%4*3);px(X,Y);if(s>.8){px(X-1,Y);px(X+1,Y);px(X,Y-1);px(X,Y+1)}}}}CC=1}
+// бусел ляціць над арнаментам
+function stork(t){const sw=(a,b)=>Math.round(Math.sin(t*1.5+a)*b);
+ CC=5;el(56,5,2,2,1);for(let k=0;k<8;k++){const a=t*.8+k*Math.PI/4;ln(56+Math.cos(a)*4,5+Math.sin(a)*4,56+Math.cos(a)*5.5,5+Math.sin(a)*5.5)}
+ CC=4;[0,1].forEach(k=>{const cx=((t*3+k*38)%84)-12,cy=3+k*7;ln(cx,cy,cx+7,cy);ln(cx+1,cy-1,cx+5,cy-1);px(cx+3,cy-2)});
+ [5,13,30].forEach((bx,i)=>{CC=4;ln(bx,22,bx,16);CC=8;px(bx,20);px(bx,18);CC=3;el(bx+sw(i,1),13,3,3,1)});
+ CC=8;ln(41,22,43,16);ln(47,22,45,16);ln(41,22,47,22);ln(43,16,45,16);CC=7;for(let k=0;k<4;k++){const a=t*1.5+k*Math.PI/2;ln(44,14,44+Math.cos(a)*6,14+Math.sin(a)*6)}
+ [54,60].forEach((bx,i)=>{CC=8;ln(bx,22,bx,20);CC=3;for(let r=0;r<5;r++){const s=sw(i+r*.3,1)*(1-r/5);ln(bx-r-1+s,11+r*2,bx+r+1+s,11+r*2)}});
+ CC=3;ln(0,22,63,22);CC=6;for(let y=23;y<=26;y++)for(let rx=0;rx<W;rx++)if(Math.sin(rx*.5+t*4+y*1.7)>.35)px(rx,y);
+ const x=((t*14)%90)-20,y=8+Math.round(Math.sin(t*2)*2),ph=Math.sin(t*12);CC=4;ln(x+2,y,x+8,y);ln(x+8,y,x+11,y-2);px(x+11,y-3);ln(x+4,y,x+3,y-Math.round(6*ph));ln(x+6,y,x+8,y-Math.round(6*ph));CC=2;ln(x+11,y-2,x+14,y-2);ln(x+2,y,x-5,y+1);orn(27)}
+// талісманы вясковай ідэнтычнасці ў левым ніжнім куце: 1 бусел на адзінай назе, 2 каласы жыта, 3 бульба-сябрук
+function charmBase(t,k){const sx=Math.round(Math.sin(t*1.5));
+ if(k==1){const b=Math.round(Math.sin(t*2));CC=2;ln(6,25,6,31);px(7,31);CC=4;el(6,22,3,2,1);ln(8,21,9+b,16);CC=8;ln(3,22,5,22);CC=4;px(9+b,15);px(10+b,15);CC=2;px(11+b,15);px(12+b,15)}
+ if(k==2){for(const [x0,top] of [[1,9],[3,5]]){CC=3;ln(x0,31,x0+sx,top+9);CC=5;for(let y=top;y<=top+8;y+=2){px(x0+sx-1,y+1);px(x0+sx+1,y);px(x0+sx,y)}ln(x0+sx,top,x0+sx,top-3)}}
+ if(k==3){const b=Math.round(Math.sin(t*3)*.6);CC=7;el(6,26+b,4,3,1);CC=8;px(4,25+b);px(8,25+b);px(5,27+b);px(6,28+b);px(7,27+b);CC=3;ln(6,22+b,6,23+b);px(5,22+b);px(7,21+b)}
+ CC=1}
+
+// ---- 6a. Тэма «Восень»: гарбуз, мухамор, жолудзь, лісток, свяцёр, кубак, грыбы, малы гарбузік, танцуючы лісток ----
+const dome=(cy,hw,h,cx=32)=>{for(let y=cy-h;y<=cy;y++){const w=Math.round(hw*Math.sqrt(1-((cy-y)/h)**2));ln(cx-w,y,cx+w,y)}};
+function pumpkinHat(){CC=5;el(32,5,10,3,1);CC=7;for(const x of[25,29,35,39])ln(x,3,x,7);CC=3;ln(32,0,32,2);px(33,0)}
+function agaricHat(){CC=2;dome(6,13,6);CC=4;px(26,3);px(37,2);px(31,5);px(40,5);px(23,5);px(33,4);ln(20,7,44,7);CC=1}
+function acornHat(){CC=8;dome(6,11,5);CC=7;for(let y=2;y<=6;y++)for(let x=21;x<=43;x++)if((x+y)%2&&Math.abs(x-32)<=Math.round(11*Math.sqrt(1-((6-y)/5)**2)))px(x,y);CC=8;ln(32,0,32,1);ln(20,7,44,7);CC=1}
+function leafShape(cx,cy,c1,c2){const hw=[1,4,7,10,7,4,1];CC=c1;hw.forEach((w,i)=>ln(cx-w,cy+i,cx+w,cy+i));CC=c2;ln(cx,cy,cx,cy+8);ln(cx-3,cy+3,cx,cy+5);ln(cx+3,cy+3,cx,cy+5);CC=8;px(cx,cy+8)}
+function leafCrown(t){leafShape(32+Math.round(Math.sin(t*2)),0,2,5);CC=1}
+function collar(){CC=7;for(let y=29;y<=31;y++)ln(0,y,63,y);CC=5;ln(0,29,63,29);CC=8;for(let x=0;x<W;x+=3)ln(x,30,x,31);CC=1}
+function mugC(c1,c2,t){CC=4;for(let k=0;k<3;k++)px(4+k*2+Math.sin(t*3+k)*1.5,17-((t*4+k*2)%6));CC=c1;for(let y=21;y<=28;y++)ln(2,y,8,y);ln(9,22,10,22);ln(10,22,10,25);ln(9,25,10,25);CC=c2;ln(2,21,8,21);CC=4;ln(3,22,3,26);CC=1}
+function cupAu(t){mugC(4,8,t)}
+function mush(k){CC=3;ln(0,30,12,30);if(k==0){CC=7;dome(24,5,3,6);ln(1,24,11,24);CC=4;for(let y=25;y<=29;y++)ln(5,y,7,y)}
+ if(k==1){CC=5;ln(2,23,10,23);ln(3,24,9,24);ln(4,25,8,25);ln(5,26,7,26);for(let y=27;y<=29;y++)ln(5,y,7,y)}
+ if(k==2){CC=2;for(let y=22;y<=25;y++){const w=y-21+1;ln(6-w-1,y,6+w+1,y)}CC=4;px(4,23);px(7,24);px(8,23);for(let y=26;y<=29;y++)ln(5,y,7,y)}CC=1}
+const mush0=()=>mush(0),mush1=()=>mush(1),mush2=()=>mush(2);
+function pumpkinBaby(t){const b=Math.round(Math.sin(t*3)*.6);CC=5;el(6,26+b,5,4,1);CC=7;ln(6,22+b,6,30+b);CC=3;ln(6,21+b,6,22+b);px(7,20+b);CC=8;px(4,25+b);px(8,25+b);px(4,28+b);px(5,29+b);px(7,29+b);px(8,28+b);CC=1}
+function danceLeaf(t){const dx=Math.round(Math.sin(t*4)*2),s=Math.sin(t*8)>0?1:-1,cx=6+dx;CC=2;[0,1,3,4,4,3,2,1,0].forEach((w,i)=>ln(cx-w,15+i,cx+w,15+i));CC=5;ln(cx,15,cx,24);ln(cx,19,cx-2,17);ln(cx,19,cx+2,17);ln(cx,22,cx-2,20);ln(cx,22,cx+2,20);CC=8;ln(cx-1,25,cx-1+s*2,30);ln(cx+1,25,cx+1-s*2,30);CC=1}
+// ---- 6b. Тэма «Зіма» ----
+function iceCrown(t){CC=6;ln(20,6,44,6);CC=1;[[21,3],[26,4],[32,6],[38,4],[43,3]].forEach(([x,h])=>{for(let yy=5-h;yy<=5;yy++){const hw=Math.floor((yy-(5-h))/h*2.5);ln(x-hw,yy,x+hw,yy)}});CC=4;[21,26,32,38,43].forEach((x,i)=>{if(Math.sin(t*5+i*2)>.4)px(x,1)});CC=1}
+function woolHat(){CC=2;for(let y=2;y<=6;y++){CC=y%2?4:2;ln(32-Math.round(12*Math.sqrt(1-((6-y)/5)**2)),y,32+Math.round(12*Math.sqrt(1-((6-y)/5)**2)),y)}CC=4;ln(19,7,45,7);CC=1;ln(31,0,33,0);ln(31,1,33,1);CC=1}
+function ushanka(){CC=7;dome(6,11,5);ln(20,6,44,6);CC=8;ln(20,6,44,6);CC=7;for(let y=3;y<=7;y++){ln(15,y,19,y);ln(45,y,49,y)}CC=8;px(15,3);px(19,7);px(45,7);px(49,3);CC=2;px(32,3);px(31,4);px(33,4);px(32,4);CC=1}
+function scarf(){for(let y=29;y<=31;y++)for(let x=0;x<W;x++){CC=(x>>2)%2?2:4;px(x,y)}for(let y=24;y<=31;y++)for(let x=56;x<=60;x++){CC=((y>>1)%2)?2:4;px(x,y)}CC=1}
+function snowFriend(t){const b=Math.round(Math.sin(t*3)*.6);CC=4;el(6,26+b,4,4,1);CC=8;px(5,25+b);px(8,25+b);px(5,28+b);px(6,29+b);px(7,28+b);CC=5;px(6,26+b);px(7,26+b);CC=1}
+function iceCube(t){CC=1;rc(2,21,10,29);CC=6;for(let y=22;y<=28;y++)for(let x=3;x<=9;x++)if((x+y)%3==0)px(x,y);CC=4;ln(3,22,5,22);if(Math.sin(t*5)>.3)px(11,20);CC=1}
+function mugWi(t){mugC(2,8,t)}
+function rabbit(t){const dx=Math.round(Math.sin(t*2));CC=4;for(let y=14;y<=21;y++){ln(3+dx*(y<18),y,4+dx*(y<18),y);ln(8+dx*(y<18),y,9+dx*(y<18),y)}CC=9;ln(3,16,3,19);ln(9,16,9,19);CC=4;el(6,26,4,4,1);CC=8;px(4,25);px(8,25);CC=9;px(6,27);CC=1}
+function potatoIce(t){const b=Math.round(Math.sin(t*3)*.6);iceCube(t);CC=7;el(6,26+b,3,2,1);CC=8;px(5,26+b);px(7,26+b);CC=1}
+function leaffill(t){pile(t,{rate:30,mod:300,r:2,n:60,off:2,lim:29,base:30,top:2,add:2,draw:(i,cx,yy)=>{CC=[2,5,7][i%3];el(cx,yy,2,1,1)}})}
+function leafspin(cx,cy,r,t,sp){for(let k=0;k<5;k++){const a=t*sp*.5+k*2*Math.PI/5;CC=k%2?2:5;ln(cx,cy,cx+Math.cos(a)*r,cy+Math.sin(a)*r)}CC=7;px(cx,cy);CC=1}
+// ---- 6c. Тэма «Вясна»: прапелер, жабка, божая кароўка, вярба, птушаня, слімак, кветачка, караблік ----
+function propCap(t){CC=6;dome(7,10,5);CC=2;ln(32,7,48,7);ln(34,6,46,6);CC=8;ln(32,1,32,2);CC=2;const L=Math.round(6*Math.abs(Math.cos(t*10)));ln(32-L,0,32+L,0);CC=5;px(32,0);CC=1}
+function frogHat(){CC=3;for(let y=4;y<=7;y++){const w=[9,11,12,12][y-4];ln(32-w,y,32+w,y)}el(26,3,3,3,1);el(38,3,3,3,1);CC=4;el(26,3,1.4,1.4,1);el(38,3,1.4,1.4,1);CC=8;px(26,3);px(38,3);CC=1}
+function ladyHat(){CC=2;dome(7,12,6);CC=8;ln(32,1,32,7);px(27,4);px(37,4);px(24,6);px(40,6);px(29,2);px(35,2);ln(30,1,28,0);ln(34,1,36,0);CC=1}
+function willow(){for(let x=12;x<=52;x++){CC=7;const y=arcY(x);px(x,y);px(x,y+1)}for(let k=0;k<10;k++){const x=14+k*4,y=arcY(x);CC=k%2?1:4;px(x,y-2);px(x+1,y-2);px(x,y-1);px(x+1,y-1);CC=3;px(x-1,y+2)}CC=1}
+function chick(t){const b=Math.round(Math.sin(t*3)*.6);CC=5;el(6,25+b,3,3,1);CC=2;px(9,25+b);CC=8;px(5,24+b);CC=7;px(2,27);CC=8;el(6,29,6,2,1);CC=7;for(let x=1;x<=11;x+=2)px(x,28);CC=1}
+function slug(t){const s=Math.round(Math.sin(t*2));CC=1;for(let x=0;x<=3;x++)px(x,31);CC=7;el(6,29,5,2,1);el(11,26,2,3,1);ln(11,23,11+s,21);ln(12,24,14+s,22);CC=8;px(11+s,21);px(14+s,22);px(11,26);CC=1}
+function potFlower(t){const sx=Math.round(Math.sin(t*2));CC=2;ln(1,26,11,26);for(let y=27;y<=30;y++){const w=[4,4,3,3][y-27];ln(6-w,y,6+w,y)}CC=3;ln(6,25,6+sx,19);px(5,23);px(4,22);px(7,22);px(8,21);CC=9;px(6+sx,15);px(4+sx,17);px(8+sx,17);px(6+sx,19);px(5+sx,16);px(7+sx,16);px(5+sx,18);px(7+sx,18);CC=5;px(6+sx,17);CC=1}
+function paperBoat(t){const b=Math.round(Math.sin(t*3)*.7);CC=4;ln(1,28+b,11,28+b);ln(2,29+b,10,29+b);ln(3,30+b,9,30+b);for(let y=21;y<=27;y++)ln(6,y+b,6+Math.round((y-20)*.7),y+b);CC=1;ln(5,24+b,2,27+b);CC=6;for(let x=0;x<=12;x++)px(x,31+Math.round(Math.sin(t*4+x*.8)*.5));CC=1}
+// ---- 6d. Тэма «Лета» ----
+function potatoSun(t){const b=Math.round(Math.sin(t*3)*.6);CC=7;el(6,26+b,5,4,1);CC=8;ln(2,25+b,10,25+b);for(const x of[3,4,5,7,8,9])px(x,26+b);px(5,28+b);px(6,29+b);px(7,28+b);CC=3;px(6,21+b);px(7,20+b);CC=1}
+function plumFriend(t){const b=Math.round(Math.sin(t*3)*.6);CC=6;el(6,26+b,4,4,1);CC=1;px(4,24+b);px(4,25+b);CC=4;px(5,26+b);px(8,26+b);px(5,28+b);px(6,29+b);px(7,28+b);CC=3;ln(6,21+b,6,22+b);px(7,21+b);px(8,20+b);CC=1}
+function sunflowerC(t){for(let k=0;k<12;k++){const a=t*.5+k*Math.PI/6;CC=5;ln(6+Math.cos(a)*3.5,22+Math.sin(a)*3.5,6+Math.cos(a)*6.5,22+Math.sin(a)*6.5)}CC=8;el(6,22,3,3,1);CC=3;ln(6,28,6,31);ln(6,30,10,28);px(10,27);CC=1}
+function iceCream(t){const b=Math.round(Math.sin(t*3)*.6);CC=7;for(let y=25;y<=31;y++){const w=Math.round((31-y)/6*3);ln(6-w,y,6+w,y)}CC=8;px(5,26);px(7,27);px(6,29);px(5,28);CC=9;el(6,22+b,4,3,1);px(3,25+b);CC=4;el(6,19+b,3,2,1);CC=2;px(6,16+b);CC=1}
+function seedfill(t){pile(t,{rate:36,mod:320,r:1,n:62,off:1,lim:29,base:30,top:2,add:2,draw:(i,cx,yy)=>{CC=i%3?5:8;px(cx,yy);px(cx+1,yy);px(cx,yy+1)}})}
+// ---- 6e. Тэма «7 лістапада»: кепка, чырвоны бант, чырвоны сцяжок (pole), бульба-рэвалюцыянер, крэйсер «Аўрора» ----
+function leninCap(){CC=8;dome(5,11,4,30);ln(19,6,42,6);ln(36,7,48,7);CC=7;ln(20,5,40,5);px(30,1);CC=2;px(38,4);CC=1}
+function redBow(){CC=2;el(27,3,4,2,1);el(37,3,4,2,1);ln(31,5,29,8);ln(33,5,36,8);CC=5;px(32,3);CC=1}
+function potatoRev(t){const b=Math.round(Math.sin(t*3)*.6);CC=7;el(5,27+b,4,3,1);CC=8;ln(2,24+b,8,24+b);ln(3,23+b,7,23+b);px(4,26+b);px(6,26+b);px(5,29+b);ln(11,18,11,30);CC=2;px(5,23+b);for(let x=12;x<=16;x++){const o=Math.round(Math.sin(t*5+x)*.8);for(let y=18;y<=22;y++)px(x,y+o)}CC=1}
+// «Аўрора» спераду: крэйсер ідзе на гледача, кожныя 5,5 с — залп з насавой гарматы ў бок экрана (успышка, дрыжанне, дым)
+function avrora(t){const T=t%5.5,ph=(T-3)/.9,fl=T>=3&&T<3.9;if(fl&&ph<.5)OX=Math.round(Math.sin(t*38)*1.5);
+ CC=4;for(let k=0;k<9;k++)if(Math.sin(t*2+k*2.7)>.2)px((k*23+5)%62+1,(k*5)%12+1);
+ CC=6;ln(0,17,63,17);for(let y=18;y<=31;y++)for(let x=0;x<W;x++)if(Math.sin(x*.45+t*3+y*1.9)>.5)px(x,y);
+ CC=8;for(let y=19;y<=29;y++){const w=Math.round(6+(29-y)*.85);ln(32-w,y,32+w,y)}
+ CC=7;ln(18,19,46,19);ln(32,19,32,29);CC=5;[[23,23],[27,24],[37,24],[41,23]].forEach(([x,y])=>px(x,y));
+ CC=4;ln(30,29,34,29);if(Math.sin(t*6)>0){px(27,30);px(37,30)}else{px(28,30);px(36,30)}
+ CC=8;ln(29,6,29,13);ln(35,6,35,13);for(let y=6;y<=13;y++)ln(29,y,35,y);CC=5;ln(29,8,35,8);CC=8;for(let y=4;y<=5;y++)ln(30,y,34,y);ln(31,2,33,3);ln(32,0,32,13);ln(27,4,37,4);
+ CC=2;px(27,4);CC=3;px(37,4);
+ CC=8;for(let y=14;y<=18;y++)ln(28,y,36,y);CC=7;ln(28,14,36,14);CC=4;el(32,16,2,2,0);CC=8;px(32,16);
+ CC=1;for(let k=0;k<5;k++){const d=(t*5+k*3)%15;px(35+d,6-d*.3+Math.sin(k))}
+ if(T>=2.6&&T<3&&Math.sin(t*30)>0){CC=5;el(32,16,3,3,1)}
+ if(fl){const R=ph<.6?ph/.6*40:40,r0=ph<.6?0:(ph-.6)/.4*40;for(let y=0;y<H;y++)for(let x=0;x<W;x++){const d=Math.hypot(x-32,(y-16)*1.7);if(d<=R&&d>=r0){if(ph>.3&&((Math.imul(x+1,73856093)^Math.imul(y+1,19349663)^Math.imul(Math.floor(t*30),83492791))>>>0)%4==0)continue;const q=d/R;CC=q<.45?4:q<.75?5:2;px(x,y)}}}
+ if(T>=3.9){CC=1;for(let k=0;k<8;k++){const s=T-3.9;el(32+Math.cos(k*1.3)*(3+s*5),16-s*4+Math.sin(k*2.1)*2,2,1.4,1)}}
+ CC=1}
+// ---- 6f. Тэма «3 ліпеня»: салют і ўсё нацыянальнае (сцяжок заўсёды, стужка ўнізе) ----
+function salute3(t){[[14,9,2],[32,6,5],[50,10,3],[22,15,4],[42,14,6]].forEach(([cx,cy,c],k)=>{const ph=(t*.55+k*.23)%1;
+ if(ph<.3){CC=4;const y=26-(26-cy)*(ph/.3);px(cx,y);px(cx,y+1)}
+ else{const r=(ph-.3)/.7*11;if(r<10){CC=c;for(let j=0;j<24;j++){const a=j*Math.PI/12;px(cx+Math.cos(a)*r,cy+Math.sin(a)*r);px(cx+Math.cos(a)*(r-1),cy+Math.sin(a)*(r-1))}CC=4;if(r>5)for(let j=0;j<8;j++){const a=j*Math.PI/4+.4;px(cx+Math.cos(a)*(r-3),cy+Math.sin(a)*(r-3))}}}});orn(27);CC=1}
+// ---- 6g. Тэма «Дзень дзяржаўнай сімволікі»: герб, тры сцягі, сэрцы ў колерах сцяга, зубр, вянок з раслін герба ----
+function gerb(t){CC=5;for(let k=0;k<13;k++){const a=-Math.PI+k*Math.PI/12,L=(k%2?9:12)+Math.round(Math.sin(t*3+k)*1.2);ln(32+Math.cos(a)*8,17+Math.sin(a)*7,32+Math.cos(a)*L,17+Math.sin(a)*L*.9)}
+ CC=6;el(32,19,7,6,0);CC=3;[[29,35],[27,37],[26,38],[27,38],[28,37],[29,36],[30,34]].forEach(([a,b],i)=>ln(a,16+i,b,16+i));
+ const P2=[];for(const s of[-1,1])for(let k=0;k<10;k++){const a=(s<0?100+k*15:80-k*15)*Math.PI/180,x=32+17*Math.cos(a),y=17+10*Math.sin(a);P2.push([x,y,s,k])}
+ CC=3;P2.forEach(([x,y,s,k],i)=>{if(k)ln(x,y,P2[i-1][0],P2[i-1][1])});
+ P2.forEach(([x,y,s,k])=>{if(k%2==0){CC=5;px(x,y);px(x+s,y-1);px(x,y-1)}else if(s<0){CC=6;px(x,y);px(x-1,y);px(x+1,y);px(x,y-1);px(x,y+1)}else{CC=9;px(x,y);px(x+1,y);px(x,y+1);px(x+1,y+1)}});
+ CC=2;bm(['00100','00100','11111','01110','11011'],32,2);if(Math.sin(t*4)>.3){CC=5;px(32,2)}
+ ribbonStrip(26);CC=4;for(let k=0;k<4;k++)if(Math.sin(t*4+k*2.4)>.5)px((k*17+9)%60+2,(k*5)%8+6);CC=1}
+function into(fn,t){const sg=g;g=new Uint8Array(W*H);fn(t);const r=g;g=sg;return r}
+function bssrFlag(t){const E=emb();for(let x=0;x<W;x++){const off=Math.round(Math.sin(t*3+x*.18)*1.6*x/W);for(let y=0;y<H;y++){const sy=Math.min(H-1,Math.max(0,y-off));let c=sy<21?2:3;if(x<10&&sy<14){const X=x*2,Y=sy*2;if(E[Y*W+X]||E[Y*W+X+1]||E[(Y+1)*W+X]||E[(Y+1)*W+X+1])c=5}CC=c;px(x,y)}}CC=1}
+function flags3(t){const F=[sflag,bssrFlag,bflag],T=t%9,s=Math.floor(T/3),f=T%3,a=into(F[s],t);
+ if(f>2.4){const b=into(F[(s+1)%3],t),cut=Math.round((f-2.4)/.6*(W+10))-5;for(let y=0;y<H;y++)for(let x=0;x<W;x++)g[y*W+x]=(x<cut?b:a)[y*W+x]}else g.set(a);
+ for(let k=0;k<3;k++){CC=k==s?5:4;px(28+k*4,31)}CC=1}
+function bison(t){const b=Math.round(Math.sin(t*6));CC=8;el(7,26,5,3,1);ln(1,24,0,27);CC=7;el(9,24,3,2,1);CC=8;el(11,27,2,2,1);CC=4;px(12,24);px(13,23);px(10,24);CC=8;ln(3,29,3,31-(b>0));ln(5,29,5,31-(b<0));ln(8,29,8,31-(b>0));ln(10,29,10,31-(b<0));CC=4;px(11,26);CC=1}
+function gerbWreath(){for(let x=12;x<=52;x++){CC=3;const y=arcY(x);px(x,y-1);px(x,y);px(x,y+1)}for(let k=0;k<9;k++){const x=15+k*4.5,y=arcY(Math.round(x))-1;if(k%2==0){CC=5;px(x,y-2);px(x,y-1);px(x-1,y-1);px(x+1,y-1);px(x,y)}else if(x<32){CC=6;px(x,y);px(x-1,y);px(x+1,y);px(x,y-1);px(x,y+1);CC=4;px(x,y)}else{CC=9;px(x,y);px(x-1,y-1);px(x+1,y-1);px(x,y+1)}}CC=1}
+function redstar(cx,cy,r,t,sp){CC=2;for(let k=0;k<5;k++){const a=t*sp*.5+k*4*Math.PI/5-Math.PI/2,b=t*sp*.5+(k+1)*4*Math.PI/5-Math.PI/2;ln(cx+Math.cos(a)*r,cy+Math.sin(a)*r,cx+Math.cos(b)*r,cy+Math.sin(b)*r)}CC=5;px(cx,cy);CC=1}
+function starfill(t){pile(t,{rate:34,mod:300,r:1,n:62,off:1,lim:29,base:30,top:2,add:2,draw:(i,cx,yy)=>{CC=i%4?2:5;px(cx,yy);px(cx-1,yy);px(cx+1,yy);px(cx,yy-1);px(cx,yy+1)}})}
+
+// ---- 8. THEMES: усё, што залежыць ад тэмы, у адным месцы ----
+// hat — капялюш, wr — вянок/хустка/каска, charm — талісман (t,k), loader — сцэна wait, sync — сцэна sync,
+// scene — сцэна stork, bloom — чым замяніць васілёк (глядзі vas()), post — малюецца заўсёды ў канцы (толькі 9 мая)
+const GROW=t=>13*Math.min(1,.25+((t*.4)%1)); // радыус, што расце, для сцэны sync
+const THEMES={
+ '':{hat,wr:wreath,charm:charmBase,loader:bulba,sync:t=>vas(32,16,13,t,1.2,4+Math.floor(t*3)%13),scene:stork},
+ ny:{hat:santa,wr:fir,charm:charmNY,loader:snowfill,sync:t=>flake(32,16,GROW(t),t,.6),scene:winter,bloom:flake},
+ ms:{hat:blinhat,wr:hustka,charm:charmMS,loader:blinfill,sync:t=>sunb(32,16,GROW(t),t,1),scene:maslScene,bloom:sunb},
+ vd:{hat:pilotka,wr:kaska,charm:charmVD,loader:petalfill,sync:t=>blossom(32,16,GROW(t),t,1),scene:stork,bloom:blossom,post:ribbonPin}
+};
+
+// ---- 8b. Сезонныя і святочныя тэмы. lists: [назва, функцыя] — вариянт выбіраецца па hv/wv/dv з rollAcc(); калі спіса няма — базавы капялюш/вянок/талісман ----
+const AU={hats:[['шляпка-гарбуз',pumpkinHat],['шляпка-мухамор',agaricHat],['шапка-жолуд',acornHat]],
+ wr:[['лісток-галаўны ўбор',leafCrown],['каўнер цёплага швэдра',collar]],
+ decor:[['кубак з гарачым напоем',cupAu],['грыб-баравік',mush0],['грыб-лісічка',mush1],['грыб-мухамор',mush2],['малыш-гарбузік',pumpkinBaby],['танцуючы лісток',danceLeaf]]};
+const WI={hats:[['лядзяная карона',iceCrown],['вялікая шарсцяная шапка',woolHat],['шапка-вушанка',ushanka]],
+ wr:[['зімовы шалік',scarf]],
+ decor:[['снежка-сябар',snowFriend],['кубік лёду',iceCube],['гарачы напой',mugWi],['трус з вялікімі вушамі',rabbit],['бульба-сябар у кубіку лёду',potatoIce]]};
+const SP={hats:[['кепка з прапелерам',propCap],['шляпка-жабка',frogHat],['шляпка-божая каровачка',ladyHat]],
+ wr:[['вянок з вярбы',willow]],
+ decor:[['птушаня ў гняздзе',chick],['слімак-сябар',slug],['кветачка ў гаршчочку',potFlower],['папяровы караблік',paperBoat]]};
+const SU={decor:[['бульба-сябар у сонечных акулярах',potatoSun],['сліва-сябар',plumFriend],['сланечнік',sunflowerC],['марожанае',iceCream]]};
+const OC={hats:[['шапка Леніна (кепка)',leninCap]],wr:[['чырвоны бант',redBow]],decor:[['бульба-сябар рэвалюцыянер',potatoRev]]};
+const SY={wr:[['вянок з раслін герба',gerbWreath]],decor:[['зубр-сябар',bison],['бусел',t=>charmBase(t,1)],['колас',t=>charmBase(t,2)]]};
+const mkT=(o,L)=>{const T={...THEMES[''],...o};if(L){T.lists=L;
+ if(L.hats)T.hat=(t,v)=>L.hats[v%L.hats.length][1](t);
+ if(L.wr)T.wr=(t,v)=>L.wr[v%L.wr.length][1](t);
+ if(L.decor)T.charm=(t,k,v)=>L.decor[v%L.decor.length][1](t)}return T};
+THEMES.au=mkT({bloom:leafspin,loader:leaffill},AU);
+THEMES.wi=mkT({bloom:flake,loader:snowfill},WI);
+THEMES.sp=mkT({bloom:blossom,loader:petalfill},SP);
+THEMES.su=mkT({bloom:sunb,loader:seedfill},SU);
+THEMES.oc=mkT({bloom:redstar,loader:starfill},OC);
+THEMES.id=mkT({always:true,pre:()=>ribbonStrip(28)});
+THEMES.sy=mkT({},SY);
+
+// ---- 9. вочы / рот / дадаткі ----
+const STAR=['000010000','000010000','000111000','001111100','111111111','001111100','000111000','000010000','000010000'];
+const HS=['0110110','1111111','1111111','0111110','0011100','0001000'];
+const HB=['011000110','111101111','111111111','111111111','011111110','001111100','000111000','000010000'];
+// ring / fill / wide — адзін алгарытм (воплскі з нахілам tl, павекай lid і зрэнкай p)
+function eyeRing(cx,cy,o,sd,t,bl){const ty=o.e,rx=ty=='wide'?6:5;let ry=ty=='wide'?7:5;ry=Math.max(.9,ry*(1-bl));
+ for(let y=-8;y<=8;y++)for(let x=-7;x<=7;x++){
+  if((x/rx)**2+(y/ry)**2>1)continue;
+  if(ty!='fill'&&ry>2.4&&(x/(rx-1.7))**2+(y/(ry-1.7))**2<1)continue;
+  let cut=-99;
+  if(o.tl){let f=(sd*x+rx)/(2*rx);if(o.tl<0)f=1-f;cut=-ry+Math.abs(o.tl)*ry*f}
+  if(o.lid)cut=Math.max(cut,-ry+o.lid*2*ry);
+  if(y<cut)continue;px(cx+x,cy+y)}
+ if(ty!='fill'&&bl<.4&&ry>3){const p=o.p||[0,0];el(cx+p[0],cy+p[1],ty=='wide'?1:2,ty=='wide'?1:2,1)}}
+const EYE={ring:eyeRing,fill:eyeRing,wide:eyeRing,
+ happy(cx,cy){for(let x=-5;x<=5;x++){const y=cy+1-Math.round(4*(1-(x/5)**2));px(cx+x,y);px(cx+x,y+1)}},
+ closed(cx,cy){for(let x=-5;x<=5;x++){const y=cy-1+Math.round(2.5*(1-(x/5)**2));px(cx+x,y);px(cx+x,y+1)}},
+ vas(cx,cy,o,sd,t){vas(cx,cy,3.6+Math.sin(t*6)*.5,t,(o.sp||2)*sd)},
+ heart(cx,cy,o,sd,t){CC=2;bm(Math.sin(t*6)>.3?HB:HS,cx,cy);CC=4;px(cx-2,cy-2)},
+ hearttri(cx,cy,o,sd,t){const R=Math.sin(t*6)>.3?HB:HS;R.forEach((r,j)=>[...r].forEach((c,i)=>{if(c=='1'){CC=j<R.length*.62?2:3;px(cx+i-(r.length>>1),cy+j-(R.length>>1))}}));CC=4;px(cx-2,cy-2)},
+ star(cx,cy,o,sd,t){CC=5;bm(STAR,cx,cy);CC=4;if(Math.sin(t*8+sd)>0)px(cx,cy)},
+ shroom(cx,cy){CC=4;for(let y=1;y<=4;y++){px(cx-1,cy+y);px(cx,cy+y)}CC=2;for(let y=-4;y<=0;y++){const w=Math.round(Math.sqrt(Math.max(0,1-((y+1)/4)**2))*5);ln(cx-w,cy+y,cx+w,cy+y)}CC=4;px(cx-2,cy-2);px(cx+2,cy-1);px(cx,cy-3)},
+ berry(cx,cy){CC=2;el(cx,cy,4,4,1);CC=4;px(cx-2,cy-2);px(cx-1,cy-2);CC=3;ln(cx,cy-5,cx+2,cy-6)},
+ rmb(cx,cy,o,sd,t){const r=5-Math.round(Math.abs(Math.sin(t*3)));for(let y=-r;y<=r;y++)for(let x=-r;x<=r;x++){const d=Math.abs(x)+Math.abs(y);if(d<=r){CC=d<=1?4:2;px(cx+x,cy+y)}}},
+ pap(cx,cy,o,sd,t){const sp=(o.sp||1.2)*sd;CC=5;for(let k=0;k<6;k++){const a=t*sp+k*Math.PI/3;ln(cx+Math.cos(a)*1.5,cy+Math.sin(a)*1.5,cx+Math.cos(a)*4.3,cy+Math.sin(a)*4.3)}CC=2;px(cx,cy);CC=4;for(let k=0;k<4;k++)if(Math.sin(t*6+k*1.9+sd)>.3)px(cx+Math.round(Math.cos(k*1.7+t)*6),cy+Math.round(Math.sin(k*2.3+t)*6))},
+ bulba(cx,cy){CC=7;el(cx,cy,5,4,1);CC=8;px(cx-2,cy-1);px(cx+1,cy+1);px(cx+2,cy-2)},
+ x(cx,cy){ln(cx-4,cy-4,cx+4,cy+4);ln(cx-4,cy+4,cx+4,cy-4)},
+ spiral(cx,cy,o,sd,t){el(cx,cy,5,5,0);el(cx,cy,2.5,2.5,0);const a=t*8*sd;px(cx+3.6*Math.cos(a),cy+3.6*Math.sin(a));px(cx,cy)}};
+function eye(cx,cy,o,sd,t,bl){CC=1;const f=EYE[o.e];if(f)f(cx,cy,o,sd,t,bl);CC=1}
+// вушы: 4 формы (o.r), іх падзёргванне
+function ears(o,t){const tw2=(t%4.2)<.3?Math.round(Math.sin(t*30)):0;
+ for(const s of[1,-1]){const m=[[6,1],[1,13],[0,7],[8,0]][o.r||0],X=x=>s>0?x:63-x;
+  const A=[X(5),10],B=[X(18),7],T=[X(m[0])+s*tw2,m[1]],C=[(A[0]+B[0])/2,(A[1]+B[1])/2];
+  ln(A[0],A[1],T[0],T[1]);ln(T[0],T[1],B[0],B[1]);ln(C[0],C[1],C[0]+(T[0]-C[0])*.55,C[1]+(T[1]-C[1])*.55)}}
+// вусы; калі ў левым куце стаіць талісман — левыя вусы не малюем
+function whiskers(opt){mirror([[10,19]],(x,y)=>{if(x<32&&opt.dc!==false&&(opt.acc||{}).dc)return;const s=x<32?-1:1;ln(x,y,x+s*8,y-2);ln(x,y+3,x+s*8,y+4)})}
+const smile=up=>{px(32,20);px(32,21);mirror(up?[[31,22],[30,23],[29,23],[28,22]]:[[31,23],[30,23],[29,24],[28,25]],px)};
+const MOUTH={w:()=>smile(1),frown:()=>smile(0),
+ open(){px(32,20);el(32,25,5,3,0);px(31,26);px(32,26);px(33,26)},
+ talk(t){px(32,20);const r=1+Math.round(Math.abs(Math.sin(t*9))*3);el(32,23+r,4,r,0)},
+ o(){px(32,20);el(32,25,2,3,0)},
+ flat(){px(32,20);ln(29,24,35,24)},
+ grin(){px(32,20);ln(26,23,38,23);px(25,22);px(39,22);px(29,24);px(35,24)},
+ smirk(){px(32,20);ln(28,24,34,24);px(35,23);px(36,22)},
+ wavy(){px(32,20);for(let x=27;x<=37;x++)px(x,23+(x%2))}};
+function mouth(o,t){CC=1;const f=MOUTH[o.m||'w'];if(f)f(t)}
+// дадаткі (o.x). Парадак аб'ектаў = парадак малявання, не парадак у масіве o.x
+const XT={
+ blush(){CC=9;mirror([[13,21],[15,21],[17,21],[14,22],[16,22]],px);CC=1},
+ tear(t){CC=6;const y=20+Math.floor((t*8)%9);px(16,y);px(16,y+1);CC=1},
+ sweat(){CC=6;[[54,7],[53,8],[55,8],[53,9],[55,9],[54,10]].forEach(a=>px(...a));CC=1},
+ zzz(t){const n=Math.floor(t*1.5)%3+1;for(let i=0;i<n;i++)txt('Z',50+i*4,10-i*4,1)},
+ blins(){for(let i=0;i<3;i++){CC=i%2?7:5;el(56,29-i*2,5,1,1)}CC=4;px(55,24);px(56,24);px(57,24);CC=2;px(58,23);CC=1},
+ speed(t){CC=4;for(let k=0;k<7;k++){const y=(k*5+3)%30,x=64-((t*45+k*23)%80),l=6+k%3*3;ln(x,y,x+l,y)}CC=1},
+ tea(t){CC=4;rc(53,25,59,29);px(60,26);px(61,27);px(60,28);ln(52,30,60,30);CC=7;ln(54,26,58,26);CC=4;for(let k=0;k<3;k++)px(55+k*1.5+Math.sin(t*3+k)*1.5,23-((t*4+k*2)%7));CC=1},
+ rooks(t){for(let k=0;k<3;k++)bird(((t*10+k*25)%90)-14,3+k*3+Math.round(Math.sin(t*2+k)),8,Math.round(Math.sin(t*12+k)*2))},
+ carn(){CC=3;ln(54,31,54,25);ln(58,31,58,23);CC=2;el(54,24,2,2,1);el(58,22,2,2,1);CC=3;px(55,28);px(57,27);CC=1},
+ giftbox(t){const b=Math.round(Math.sin(t*5)*.7);CC=6;for(let y=24;y<=31;y++)ln(52,y+b,62,y+b);CC=5;ln(57,24+b,57,31+b);ln(52,27+b,62,27+b);px(56,23+b);px(58,23+b);px(55,22+b);px(59,22+b)},
+ salute(t){for(let k=0;k<3;k++){const ph=(t*.9+k*.33)%1,cx=[10,54,32][k],cy=[6,5,3][k],r=ph*10;CC=[5,2,6][k];if(ph<.85)for(let j=0;j<12;j++){const a=j*Math.PI/6;px(cx+Math.cos(a)*r,cy+Math.sin(a)*r)}}CC=1},
+ snack(){CC=7;el(56,29,5,2,1);el(56,26,5,2,1);CC=8;px(53,26);px(58,29);CC=4;el(56,23,2,1,1);CC=1},
+ leaves(t){for(let k=0;k<9;k++){const lx=(k*23)%60+3+Math.sin(t*2+k)*3,ly=((t*5+k*9)%40)-4;CC=[5,2,7][k%3];px(lx,ly);px(lx+1,ly);px(lx,ly+1)}CC=1},
+ snow(t){CC=4;for(let k=0;k<18;k++){const sx=(k*13+5)%62+Math.sin(t+k)*1.5,sy=((t*6+k*7)%36)-2;px(sx,sy);if(k%4==0){px(sx-1,sy);px(sx+1,sy);px(sx,sy-1);px(sx,sy+1)}}CC=1},
+ note(){CC=5;px(54,3);px(54,4);px(54,5);px(53,6);px(52,6);px(53,7);px(52,7);CC=1},
+ dots(t){const n=Math.floor(t*2.5)%4;for(let i=0;i<n;i++){px(50+i*4,3);px(51+i*4,3)}}};
+
+// ---- 10. сцэны (эмоцыі з sc): поўнаэкранныя карцінкі замест твару ----
+const SC={
+ flag:t=>flag(t),
+ link:t=>{txtC('ПОШУК',4,2);rc(6,17,57,25);const w=Math.round(((t*.4)%1)*49);for(let x=8;x<=8+w;x++)for(let y=19;y<=23;y++){const d=Math.abs((x%6)-2.5)+Math.abs(y-21);if(d<=2.2){CC=d<1.2?3:2;px(x,y)}}CC=1},
+ hi:t=>{orn(0);orn(27);txtC('ВІТАЮ!',7,2);vas(32,22,3.5,t,1.5)},
+ ok:()=>{orn(0);orn(27);txtC('ФАЙНА!',7,2);CC=3;ln(28,20,31,23);ln(31,23,37,16);CC=1},
+ wait:t=>THEMES[TH].loader(t),
+ sync:t=>THEMES[TH].sync(t),
+ paparats,
+ stork:t=>THEMES[TH].scene(t),
+ newyear,tree,pavuk,bliny,sun:sunscr,reichstag:reich,may9,ribbon:ribbonScr,
+ avrora,salute3,gerb,flags3,
+ lowbat:t=>{txtC('ЗАРЯД',2,2);rc(20,15,42,27);ln(43,19,43,23);if((t%1.2)<.7){CC=5;for(let y=17;y<=25;y++)ln(22,y,25,y)}CC=1}};
+
+// ---- 11. выпадковыя аксесуары і render() ----
+// убор на галаве (нічога / капялюш / вянок, кожны 1/3, разам ніколі) + сцяжок (есць/няма 1/2) = 6 роўнаімаверных камбінацый
+// эмоцыі, дзе сцяг не ставім (можа адчувацца як непавага да сімвалікі): сон, нудга, смутак, злосць, страх, памылка, жартаўлівыя або камічныя
+const NOFLAG=['sleepy','sleep','bored','tired','sad','cry','angry','scared','dizzy','confused','error','pout','evil','mischief','suspect','smug','sorry','plead','hungry','leaves','winter'];
+// hv/wv/dv — выпадковыя лічбы для выбару варыянта ў спісе тэмы (THEMES[..].lists): індэкс = лічба % даўжыня спісу
+const rnd=()=>Math.floor(Math.random()*1000);
+function rollAcc(id){const s=Math.floor(Math.random()*3),E=id&&EM[id];return{hv:rnd(),wv:rnd(),dv:rnd(),hat:s==1,wr:s==2,dc:Math.floor(Math.random()*4),fl:(E&&E.noflag)||NOFLAG.includes(id)?false:!!(E&&E.flag)||Math.random()<.5}}
+// T.pre — малюецца першым (пад талісманам), T.post — апошнім, T.always — сцяжок заўсёды
+function accessories(opt,t){const AC=opt.acc||{},T=THEMES[TH];
+ if(T.pre)T.pre(t);
+ if(AC.hat&&opt.hat!==false)T.hat(t,AC.hv|0);else if(AC.wr&&opt.hat!==false)T.wr(t,AC.wv|0);
+ if((AC.fl||T.always)&&opt.fl!==false)pole(t);
+ if(AC.dc&&opt.dc!==false)T.charm(t,AC.dc,AC.dv|0);
+ if(T.post)T.post(t)}
+// o — эмоцыя з EM, t — секунды, opt: th (тэма: ''/ny/ms/vd), acc (вынік rollAcc), wh/ea/hat/fl/dc = false — выключыць вусы/вушы/убор/сцяжок/талісман. Вяртае Uint8Array(W*H).
+function render(o,t,opt={}){
+ g=new Uint8Array(W*H);OX=OY=0;CC=1;TH=opt.th||'';
+ if(o.a=='bounce')OY=Math.round(Math.sin(t*9)*1.2);
+ if(o.a=='shake')OX=Math.round(Math.sin(t*38));
+ if(o.sc){const f=SC[o.sc];if(f)f(t);return g}
+ const bl=(!o.nb&&(t%3.6)<.16)?1:0;
+ const wx=o.w?Math.round(Math.sin(t*.9)*1.5):0,wy=o.w?Math.round(Math.sin(t*.6+1)*.8):0;
+ const p=o.p||[0,0],eo={...o,p:[p[0]+wx,p[1]+wy]};
+ eye(19,14,eo,1,t,bl);eye(45,14,{...eo,e:o.e2||o.e},-1,t,bl);
+ if(opt.ea!==false)ears(o,t);
+ mouth(o,t);
+ if(opt.wh!==false)whiskers(opt);
+ const X=o.x||[];for(const k in XT)if(X.includes(k))XT[k](t);
+ accessories(opt,t);
+ return g}
+
+// ---- 12. Эмоцыі. e/e2 – вочы (ring, fill, wide, happy, closed, vas = васілёк, bulba = бульба, x, spiral…); tl – нахіл; lid – павека; p – зрэнка; m – рот;
+// r – вушы 0..3; a – анімацыя (bounce/shake); w – блуканне позірку; nb – без маргання; x – дадаткі (XT); sc – сцэна (SC);
+// th – толькі ў гэтых тэмах ("ny vd"); nth – схаваць у гэтых тэмах; nn/nm/nv – назва ў тэмах «Новы год»/«Масленіца»/«9 мая»; flag – сцяжок заўсёды; noflag – ніколі =====
+const EM={
+idle:{n:"Спакойны",e:"ring",w:1},
+happy:{n:"Радасны",e:"happy",m:"open",x:["blush"]},
+joy:{n:"Радуецца",e:"happy",m:"open",a:"bounce",r:3,x:["blush"]},
+love:{n:"Закаханы",e:"heart",m:"w",a:"bounce",r:3,x:["blush"]},
+crush:{n:"Васількі ў вачах",nn:"Сняжынкі ў вачах",nm:"Сонейкі ў вачах",nv:"Яблыневы цвет ў вачах",e:"vas",sp:1.5,m:"w",a:"bounce",r:3,x:["blush"]},
+hug:{n:"Абдымашкі",e:"heart",m:"w",r:1,x:["blush"]},
+excited:{n:"Захоплены",e:"vas",sp:5,m:"open",a:"bounce",r:3},
+wink:{n:"Падміргвае",e:"ring",e2:"happy",m:"w"},
+smug:{n:"Хітры",e:"fill",lid:.45,m:"smirk",nb:1},
+mischief:{n:"Задумаў штосьці",e:"fill",tl:.9,m:"grin"},
+shy:{n:"Саромеецца",e:"happy",m:"w",r:1,x:["blush"]},
+sad:{n:"Сумна",e:"ring",tl:-.8,m:"frown",r:1,p:[0,1]},
+cry:{n:"Плача",e:"ring",tl:-.8,m:"frown",r:1,p:[0,1],x:["tear"]},
+angry:{n:"Злуецца",e:"fill",tl:1,m:"frown",r:2},
+surprised:{n:"Здзіўлены",e:"wide",m:"o",r:3,nb:1},
+scared:{n:"Спалохаўся",e:"wide",m:"wavy",a:"shake",r:2,nb:1,x:["sweat"]},
+sleepy:{n:"Сонны",e:"fill",lid:.6,m:"flat",r:1,nb:1},
+sleep:{n:"Спіць",e:"closed",m:"flat",r:1,x:["zzz"]},
+bored:{n:"Нудна",e:"ring",lid:.5,m:"flat",p:[3,1],r:1},
+dizzy:{n:"Круціцца галава",e:"spiral",m:"wavy"},
+confused:{n:"Не разумее",e:"ring",e2:"wide",m:"wavy"},
+think:{n:"Думае",e:"ring",p:[2,-2],m:"flat",x:["dots"]},
+focus:{n:"Працуе",e:"fill",tl:.35,m:"flat",r:3},
+listen:{n:"Слухае",e:"ring",m:"w",r:3},
+talk:{n:"Гаворыць",e:"ring",m:"talk",w:1},
+error:{n:"Памылка",e:"x",m:"flat",nb:1,r:2,noflag:1},
+proud:{n:"Ганарыцца",e:"ring",lid:.3,m:"w",r:3,p:[0,-1],flag:1},
+tired:{n:"Стаміўся",e:"fill",lid:.7,m:"wavy",r:1,nb:1},
+laugh:{n:"Рагоча",e:"happy",m:"talk",a:"bounce",r:3,x:["blush"]},
+suspect:{n:"Падазрае",e:"fill",lid:.4,tl:.3,m:"flat",p:[2,0]},
+plead:{n:"Шчанячыя вочы",e:"wide",tl:-.5,m:"w",r:1,w:1},
+pout:{n:"Надзьмуўся",e:"ring",lid:.3,tl:.4,m:"frown",r:2,p:[2,0],x:["blush"]},
+evil:{n:"Хітры план",e:"fill",tl:1,m:"grin",r:2},
+wow:{n:"Вось гэта так!",e:"vas",sp:8,m:"o",r:3,nb:1},
+music:{n:"Слухае музыку",e:"closed",m:"w",a:"bounce",r:3,x:["note"]},
+hungry:{n:"Галодны (бульба!)",e:"bulba",m:"open",r:3},
+thanks:{n:"Дзякуй",e:"happy",m:"w",r:3,x:["blush"]},
+sorry:{n:"Прабач",e:"ring",tl:-.5,m:"w",r:1,p:[0,1],x:["blush"]},
+budzma:{n:"Будзьмо!",e:"vas",sp:3,m:"open",a:"bounce",r:3,x:["blush"]},
+kupalle:{n:"Купальская ноч",nth:"ny ms vd",e:"pap",m:"open",a:"bounce",r:3,x:["blush"]},
+charm:{n:"Зачараваны ромбамі",e:"rmb",m:"w",r:3},
+draniki:{n:"Смакуе дранікі",e:"happy",m:"open",r:3,x:["snack"]},
+shroom:{n:"Грыбны сезон",e:"shroom",m:"w",r:3},
+berry:{n:"Журавіны",e:"berry",m:"open",r:3},
+leaves:{n:"Лістапад",e:"ring",tl:-.5,m:"flat",r:1,p:[0,1],x:["leaves"]},
+winter:{n:"Мёрзне (зіма)",e:"ring",tl:-.4,m:"wavy",a:"shake",r:1,nb:1,x:["snow"]},
+zorka:{n:"Калядная зорка",e:"star",m:"open",a:"bounce",r:3,th:"ny"},
+gift:{n:"Падарунак!",e:"wide",m:"o",r:3,nb:1,x:["giftbox"],th:"ny"},
+snowfall:{n:"Снегапад",e:"happy",m:"w",r:3,x:["snow","blush"],th:"ny"},
+salute:{n:"Салют",e:"star",m:"open",a:"bounce",r:3,x:["salute"],th:"ny vd"},
+newyear:{n:"З Новым годам!",sc:"newyear",th:"ny"},
+tree:{n:"Ёлка",sc:"tree",th:"ny"},
+pavuk:{n:"Паўучок (саломка)",sc:"pavuk",th:"ny"},
+blin:{n:"Смакуе бліны",e:"happy",m:"open",r:3,x:["blins"],th:"ms"},
+sled:{n:"Імчым на санях!",e:"happy",m:"open",a:"bounce",r:3,x:["speed","blush"],th:"ms"},
+tea:{n:"Гарбата з самавара",e:"closed",m:"w",r:1,x:["tea","blush"],th:"ms"},
+rooks:{n:"Грачы прыляцелі",e:"ring",p:[1,-2],m:"w",r:3,x:["rooks"],th:"ms"},
+bliny:{n:"Бліны!",sc:"bliny",th:"ms"},
+sun:{n:"Сонца (Масленіца)",sc:"sun",th:"ms"},
+reichstag:{n:"Сцяг над Рэйхстагам",sc:"reichstag",th:"vd"},
+may9:{n:"9 мая",sc:"may9",th:"vd"},
+ribbon:{n:"Кветка Вялікай Перамогі",sc:"ribbon",th:"vd"},
+bloom:{n:"Яблыня цвіце",e:"vas",sp:2,m:"w",r:3,x:["blush"],th:"vd"},
+memory:{n:"Мы памятаем",e:"ring",lid:.25,tl:-.3,m:"flat",r:1,p:[0,1],x:["carn"],th:"vd"},
+link:{n:"Пошук (арнамент)",sc:"link"},
+hi:{n:"Вітаю",sc:"hi"},
+ok:{n:"Файна",sc:"ok"},
+wait:{n:"Бульбапад",nn:"Снегапад (загрузка)",nm:"Блінапад",nv:"Яблыневы цвет (загрузка)",sc:"wait"},
+sync:{n:"Расквітае васілёк",nn:"Расце сняжынка",nm:"Узыходзіць сонца",nv:"Расцвітае яблыня",sc:"sync"},
+paparats:{n:"Папараць-кветка",nth:"ny ms vd",sc:"paparats"},
+stork:{n:"Бусел ляціць",nn:"Зімовыя птушкі",nm:"Масленіца: сані",sc:"stork"},
+lowbat:{n:"Мала зараду",sc:"lowbat"},
+avrora:{n:"Крэйсер «Аўрора»",sc:"avrora",th:"oc"},
+salute3:{n:"Святочны салют",sc:"salute3",th:"id"},
+gerb:{n:"Герб (ажыўлены)",sc:"gerb",th:"sy"},
+flags3:{n:"Сцягі: СССР, БССР, Беларусь",sc:"flags3",th:"sy"},
+loveflag:{n:"Сэрцы ў колерах сцяга",e:"hearttri",m:"w",a:"bounce",r:3,x:["blush"],th:"sy id"},
+flag:{n:"Дзяржаўны сцяг",nv:"Сцяг Перамогі",sc:"flag"}
+};
+</script>
+<script>
+(function(){
+const EMS=['idle','think','listen','wink','proud','surprised','happy','love','excited','sad','pout','plead','focus','music','sleepy','angry','hi','flag','stork'];
+const TH=['','ny','ms','vd'],THN=['обычная','Новый год','Масленица','9 мая'];
+
+const calm=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const bg=document.createElement('canvas');bg.width=640;bg.height=320;
+{const q=bg.getContext('2d');q.fillStyle='#000';q.fillRect(0,0,640,320);q.fillStyle='rgba(128,140,155,.16)';for(let y=0;y<32;y++)for(let x=0;x<64;x++)q.fillRect(x*10,y*10,9,9)}
+function player(cv,get){cv.width=640;cv.height=320;const q=cv.getContext('2d');let vis=true,last=0;const t0=performance.now();
+ new IntersectionObserver(e=>{vis=e[0].isIntersecting}).observe(cv);
+ function frame(n){requestAnimationFrame(frame);if(!vis||document.hidden||n-last<40)return;last=n;
+  const s=get(),G=render(s.gaze?{...EM[s.id],p:s.gaze,w:0}:EM[s.id],calm?1:(n-t0)/1000,{th:s.th,acc:s.acc});
+  q.drawImage(bg,0,0);for(let i=0;i<G.length;i++)if(G[i]){q.fillStyle=P[G[i]];q.fillRect((i%64)*10,((i/64)|0)*10,9,9)}}
+ requestAnimationFrame(frame)}
+
+const $=s=>document.querySelector(s);
+const H={id:'idle',th:'',acc:rollAcc('idle'),gaze:null};
+function show(id){H.id=id;H.acc=rollAcc(id);$('#heroName').textContent=EM[id].n}
+let ti=0;
+$('#nextEmo').onclick=()=>{let k;do{k=EMS[Math.floor(Math.random()*EMS.length)]}while(k===H.id);show(k)};
+$('#heroName').parentNode.onclick=$('#nextEmo').onclick;
+$('#nextTh').onclick=e=>{ti=(ti+1)%4;H.th=TH[ti];e.target.textContent='Тема: '+THN[ti];H.acc=rollAcc(H.id)};
+$('#reroll').onclick=()=>{H.acc=rollAcc(H.id)};
+show('idle');player($('#hero'),()=>H);
+const heroEl=$('#top'),cv=$('#hero');
+function aim(e){const r=cv.getBoundingClientRect(),x=(e.clientX-r.left-r.width/2)/r.width,y=(e.clientY-r.top-r.height/2)/r.height;
+ H.gaze=[Math.max(-2,Math.min(2,Math.round(x*5))),Math.max(-1,Math.min(1,Math.round(y*4)))]}
+heroEl.addEventListener('pointermove',aim);heroEl.addEventListener('pointerleave',()=>{H.gaze=null});
+// события
+const EVS=[['pc.app.focus',[['focus',5000]]],['pc.work.proud',[['proud',3200],['happy',3200]]],['phone.touch.pet',[['love',4000]]],
+['phone.touch.comfort',[['thanks',2500],['happy',3000]]],['phone.hit.back',[['angry',1800],['pout',3500]]],['phone.battery.low',[['lowbat',5000]]],['link.failed',[['link',5000]]]];
+const E={id:'idle',th:'',acc:rollAcc('idle')};let tm=[],ei=0;const log=$('#evlog');log.textContent='Ждёт события.';
+function run(){const [id,steps]=EVS[ei++%EVS.length];tm.forEach(clearTimeout);tm=[];let at=0;
+ log.textContent=id+' → '+steps.map(s=>s[0]).join(' → ');
+ steps.forEach(([em,ms])=>{tm.push(setTimeout(()=>{E.id=em;E.acc=rollAcc(em)},at));at+=ms});
+ tm.push(setTimeout(()=>{E.id='idle';E.acc=rollAcc('idle')},at))}
+$('#evnext').onclick=run;player($('#evcv'),()=>E);
+// провод: сообщения протокола
+const MSG=['телефон → ПК  {"type":"hello","token":"…","device":"Pixel"}','ПК → телефон  {"type":"welcome","pc_name":"DESKTOP","mapping_hash":"…"}','ПК → телефон  {"type":"event","id":"pc.app.focus","data":{"emotion":"focus"}}','ПК → телефон  {"type":"state","cpu":12.5,"battery":{"percent":80}}','телефон → ПК  {"type":"ping"}','ПК → телефон  {"type":"pong"}'];
+let mi=0;const msg=$('#msg');msg.textContent=MSG[0];
+setInterval(()=>{msg.style.opacity=0;setTimeout(()=>{mi=(mi+1)%MSG.length;msg.textContent=MSG[mi];msg.style.opacity=1},300)},3000);
+// орнамент из движка (шаблон OR), прогресс, меню, появление
+{const c=document.createElement('canvas');c.width=7;c.height=10;const q=c.getContext('2d');q.fillStyle='#c8313e';OR.forEach((r,y)=>[...r].forEach((v,x)=>{if(v=='1')q.fillRect(x,y,1,1)}));
+ document.documentElement.style.setProperty('--orn','url('+c.toDataURL()+')')}
+const prog=$('.prog');addEventListener('scroll',()=>{const d=document.documentElement;prog.style.width=(scrollY/(d.scrollHeight-innerHeight||1)*100)+'%'},{passive:true});
+const links=[...document.querySelectorAll('nav a')];
+new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)links.forEach(a=>a.classList.toggle('on',a.getAttribute('href')=='#'+e.target.id))}),{rootMargin:'-40% 0px -55% 0px'}).observe&&
+[...document.querySelectorAll('main section')].forEach(function(s){this.observe(s)},new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)links.forEach(a=>a.classList.toggle('on',a.getAttribute('href')=='#'+e.target.id))}),{rootMargin:'-40% 0px -55% 0px'}));
+if(!calm){const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.15});
+ document.querySelectorAll('h2,h3,.cols li,.duo,tr,pre,#stage').forEach((el,i)=>{el.classList.add('rv');el.style.animationDelay=(i%6)*70+'ms';io.observe(el)})}
+// светящаяся LED-сетка за героем
+if(!calm){const g=$('#grid'),q=g.getContext('2d'),K=14,pal=['#4d7cff','#4aa657','#c8313e','#e8c35a'];let w,h,cols,rows,a,mx=-99,my=-99,vis=true;
+ function size(){const r=heroEl.getBoundingClientRect();g.width=w=r.width;g.height=h=r.height;cols=Math.ceil(w/K);rows=Math.ceil(h/K);a=new Float32Array(cols*rows)}
+ size();addEventListener('resize',size);new IntersectionObserver(e=>{vis=e[0].isIntersecting}).observe(heroEl);
+ heroEl.addEventListener('pointermove',e=>{const r=heroEl.getBoundingClientRect();mx=(e.clientX-r.left)/K;my=(e.clientY-r.top)/K});
+ (function f(){requestAnimationFrame(f);if(!vis||document.hidden)return;q.clearRect(0,0,w,h);
+  for(let y=0;y<rows;y++)for(let x=0;x<cols;x++){const i=y*cols+x,d=Math.hypot(x-mx,y-my);if(d<7)a[i]=Math.max(a[i],1-d/7);a[i]*=.93;
+   if(a[i]>.03){q.globalAlpha=a[i]*.9;q.fillStyle=pal[(x*7+y*3)%4];q.fillRect(x*K,y*K,K-3,K-3)}}q.globalAlpha=1})()}
+})();
+</script>
+<script>(function(){
+// Лапка — точная копия референса: растр 17×14 клеток, положен на холст 19×19. У всех расцветок одна форма, отличается палитра.
+// Буква в строке — ключ палитры, «.» — пусто. Поворот делается CSS-ом по готовому рисунку, поэтому пиксели не теряются и не искажаются.
+const PAW={N:19,ox:1,oy:2};
+const SKINS={
+  pink:  {label:'Розовая',   pal:{'#':null,'p':'#feaacc'},                       // контур берётся из темы (--paw-ol)
+    rows:[
+      '.....##...##.....',
+      '....#pp#.#pp#....',
+      '....#pp#.#pp#....',
+      '....#pp#.#pp#....',
+      '.##..##...##..##.',
+      '#pp#.........#pp#',
+      '#pp#...###...#pp#',
+      '.##...#ppp#...##.',
+      '....##ppppp##....',
+      '...#ppppppppp#...',
+      '...#ppppppppp#...',
+      '...#ppppppppp#...',
+      '...#ppp###ppp#...',
+      '....###...###....']},
+  white: {label:'Белая',     pal:{'w':'#fcfcfc','p':'#feaacc','t':'#b8aaa2'},
+    rows:[
+      '.....ww...ww.....',
+      '....wppw.wppw....',
+      '....wppw.wppw....',
+      '....wppw.wppw....',
+      '.ww..ww...ww..ww.',
+      'wppw.........wppw',
+      'wppw...www...wppw',
+      '.ww...wttpw...ww.',
+      '....wwtttppww....',
+      '...wttttpppppw...',
+      '...wtttppppppw...',
+      '...wtttppppppw...',
+      '...wttpwwwpppw...',
+      '....www...www....']},
+  tan:   {label:'Рыжая',     pal:{'#':'#96826f','f':'#facb9e'},
+    rows:[
+      '.....##...##.....',
+      '....#ff#.#ff#....',
+      '....#ff#.#ff#....',
+      '....#ff#.#ff#....',
+      '.##..##...##..##.',
+      '#ff#.........#ff#',
+      '#ff#...###...#ff#',
+      '.##...#fff#...##.',
+      '....##fffff##....',
+      '...#fffffffff#...',
+      '...#fffffffff#...',
+      '...#fffffffff#...',
+      '...#fff###fff#...',
+      '....###...###....']},
+  cream: {label:'Кремовая',  pal:{'f':'#facb9e','w':'#fcfcfc','t':'#baaaa0'},
+    rows:[
+      '.....ff...ff.....',
+      '....fwwf.fwwf....',
+      '....fwwf.fwwf....',
+      '....fwwf.fwwf....',
+      '.ff..ff...ff..ff.',
+      'fwwf.........fwwf',
+      'fwwf...fff...fwwf',
+      '.ff...fttwf...ff.',
+      '....fftttwwff....',
+      '...fttttwwwwwf...',
+      '...ftttwwwwwwf...',
+      '...ftttwwwwwwf...',
+      '...fttwfffwwwf...',
+      '....fff...fff....']}};
+
+// маска формы (общая для всех расцветок) — нужна, чтобы считать, насколько лапка заходит в окно
+const PAWM=(()=>{const N=PAW.N,g=new Uint8Array(N*N);
+  SKINS.pink.rows.forEach((r,j)=>[...r].forEach((ch,i)=>{if(ch!=='.')g[(j+PAW.oy)*N+i+PAW.ox]=1}));return g})();
+
+function drawPaw(cv,angle,u,led){
+  const N=PAW.N,sk=SKINS[S.skin],gap=led?Math.max(1,Math.round(u/4)):0,
+    ol=getComputedStyle(document.documentElement).getPropertyValue('--paw-ol').trim()||'#798284';
+  cv.width=cv.height=N*u;
+  const q=cv.getContext('2d');q.clearRect(0,0,cv.width,cv.height);
+  sk.rows.forEach((row,j)=>[...row].forEach((ch,i)=>{if(ch==='.')return;
+    q.fillStyle=sk.pal[ch]||ol;q.fillRect((i+PAW.ox)*u,(j+PAW.oy)*u,u-gap,u-gap)}));
+  cv.style.transform=angle?'rotate('+angle+'deg)':'none'}      // поворот всего готового рисунка
+
+
+// кнопка: [текст, стиль (p = главная), реакция лапки по клику (демо)]
+const TYPES={
+  normal:  {label:'Обычное',       cap:'Напоминание',            msg:'Моти хочет кое-что тебе напомнить',
+            btns:[['Хорошо','p','happy'],['Позже','','hide']], state:'idle'},
+  pomodoro:{label:'Pomodoro',      cap:'Pomodoro · фокус',       msg:'Кажется, ты немного отвлёкся. Может, вернёмся к работе?',
+            btns:[['Вернуться к работе','p','happy'],['Продолжить','','disappointed']], state:'attention'},
+  block:   {label:'Блокировка',    cap:'Отвлекающее приложение', msg:'Может, временно закроем доступ к этому приложению?',
+            btns:[['На 10 минут','p','happy'],['До конца Pomodoro','','happy'],['Не нужно','','disappointed']], state:'pointing', target:0},
+  confirm: {label:'Подтверждение', cap:'Нужно разрешение',       msg:'Моти хочет закрыть программу. Разрешить?',
+            btns:[['Разрешить','p','happy'],['Отмена','','disappointed']], state:'idle'},
+  cheer:   {label:'Ура!',          cap:'Отличная работа',        msg:'Ура! Отлично поработали!',
+            btns:[['Продолжить','p','hide']], state:'happy'},
+  soft:    {label:'Перерыв',       cap:'Мягкое напоминание',     msg:'Может, немного отдохнём?',
+            btns:[['Сделать перерыв','p','happy'],['Пока нет','','hide']], state:'attention'}};
+
+const STATES={
+  idle:        ['Idle',         'Спокойствие: лапка едва заметно покачивается.'],
+  attention:   ['Attention',    'Привлечение внимания: два небольших постукивания по рамке.'],
+  pointing:    ['Pointing',     'Указание: лапка поворачивается к кнопке и мягко «тыкает» в её сторону.'],
+  disappointed:['Disappointed', 'Разочарование: лапка медленно отстраняется от рамки и слегка отворачивается.'],
+  happy:       ['Happy',        'Радость: пара небольших прыжков, лапка чуть наклоняется к окну.'],
+  hide:        ['Hide',         'Исчезновение: лапка плавно уходит за край окна. «Запуск» вернёт её на место.']};
+
+const CORNERS={tl:'↖ Верхний левый',tr:'↗ Верхний правый',bl:'↙ Нижний левый',br:'↘ Нижний правый'};
+const APPEARS={full:['Окно → пауза → лапка',1.25],fade:['Плавное проявление',.5],shift:['Проявление со смещением',.5],peek:['Только лапка из-за угла',.8]};
+
+const $=s=>document.querySelector(s);
+const stage=$('#stage'),notif=$('#notif'),win=$('#win'),paw=$('#paw'),pawc=$('#pawc');
+
+const DEFAULTS={u:5,reach:46,px:0,py:0,tilt:0,spd:1,rad:14,led:false};
+const S={type:'pomodoro',state:'attention',corner:'tl',appear:'full',theme:'light',skin:'pink',...DEFAULTS};
+
+const BASE={tl:0,tr:0,bl:0,br:0};                // пальцы смотрят вверх во всех углах
+const norm=a=>((a%360)+540)%360-180;
+
+function poseAngle(){
+  const ox=S.corner[1]==='l'?-1:1,base=BASE[S.corner]+S.tilt,away=ox*15;
+  if(S.state==='disappointed')return base+away;  // отворачивается от окна
+  if(S.state==='happy')return base-away;         // наклоняется к окну
+  if(S.state==='pointing'){                       // смотрит на кнопку, но не больше ±30° от базовой позы
+    const T=TYPES[S.type],b=win.querySelectorAll('.btn')[T.target||0];
+    if(b){const p=paw.getBoundingClientRect(),r=b.getBoundingClientRect(),
+      vx=r.left+r.width/2-(p.left+p.width/2),vy=r.top+r.height/2-(p.top+p.height/2),
+      want=Math.atan2(vx,-vy)*180/Math.PI,d=Math.max(-30,Math.min(30,norm(want-base)));
+      return base+Math.round(d/15)*15}}
+  return base}
+
+function refresh(){
+  stage.style.setProperty('--n',PAW.N);stage.style.setProperty('--u',S.u+'px');stage.style.setProperty('--reach',S.reach+'px');
+  stage.style.setProperty('--px',S.px+'px');stage.style.setProperty('--py',S.py+'px');
+  stage.style.setProperty('--rad',S.rad+'px');stage.style.setProperty('--spd',S.spd);
+  for(const el of[stage,notif]){el.dataset.cx=S.corner[1];el.dataset.cy=S.corner[0]}
+  notif.dataset.state=S.state;notif.dataset.appear=S.appear;
+  win.querySelectorAll('.btn').forEach((b,i)=>b.classList.toggle('ptd',S.state==='pointing'&&(TYPES[S.type].target||0)===i));
+  stage.style.setProperty('--ty',tipDepth());
+  drawPaw(pawc,poseAngle(),S.u,S.led)}
+
+function tipDepth(){                             // на сколько «пикселей» лапка заходит от внешнего края холста к окну (по базовой позе)
+  const N=PAW.N,c=N/2,a=(BASE[S.corner]+S.tilt)*Math.PI/180,ca=Math.cos(a),sa=Math.sin(a),top=S.corner[0]==='t';
+  let m=top?-1e9:1e9;
+  for(let i=0;i<N*N;i++)if(PAWM[i])for(const [qx,qy] of [[0,0],[1,0],[0,1],[1,1]]){
+    const dx=(i%N)+qx-c,dy=((i/N)|0)+qy-c,y=dx*sa+dy*ca+c;
+    m=top?Math.max(m,y):Math.min(m,y)}
+  return top?m:N-m}
+
+function buildWindow(){
+  const T=TYPES[S.type];
+  win.setAttribute('aria-label',T.cap);
+  win.innerHTML='<div class="w-cap">'+T.cap+'</div><p class="w-msg">'+T.msg+'</p><div class="w-btns">'+
+    T.btns.map((b,i)=>'<button class="btn '+b[1]+'" data-i="'+i+'">'+b[0]+'</button>').join('')+'</div>'}
+
+// phase: 'seq' — появление + состояние, 'state' — только состояние
+function play(withAppear){
+  notif.classList.remove('play');
+  notif.dataset.phase=withAppear?'seq':'state';
+  notif.style.setProperty('--sd',withAppear?APPEARS[S.appear][1]:0);
+  void notif.offsetWidth;                         // перезапуск CSS-анимаций
+  notif.classList.add('play');setRunUi(true)}
+function stop(){notif.classList.remove('play');setRunUi(false)}
+function setRunUi(){}
+
+function setType(k){S.type=k;S.state=TYPES[k].state;buildWindow();syncUi();refresh();play(true)}
+function setState(k){S.state=k;syncUi();refresh();play(false)}
+win.addEventListener('click',e=>{const b=e.target.closest('.btn');if(!b)return;const m=TYPES[S.type].btns[b.dataset.i][2];if(m)setState(m)});
+addEventListener('resize',()=>drawPaw(pawc,poseAngle(),S.u,S.led));
+
+const ORDER=['pomodoro','block','cheer','soft'],SK=Object.keys(SKINS),CO=['tl','tr','br','bl'];
+function syncUi(){$('#hint').textContent=STATES[S.state][1]}
+const nx=(a,v)=>a[(a.indexOf(v)+1)%a.length];
+$('#p-type').onclick=()=>setType(nx(ORDER,S.type));
+$('#p-skin').onclick=()=>{S.skin=nx(SK,S.skin);refresh()};
+$('#p-corner').onclick=()=>{S.corner=nx(CO,S.corner);syncUi();refresh();play(true)};
+$('#b-run').onclick=()=>play(true);
+matchMedia('(prefers-color-scheme: dark)').addEventListener('change',()=>setTimeout(refresh,50));
+S.type='pomodoro';S.state='attention';S.corner='tl';
+buildWindow();syncUi();refresh();play(true);
+})();</script></body></html>
